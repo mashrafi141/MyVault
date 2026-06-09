@@ -41,11 +41,55 @@ async function createImageCard(fileHandle) {
 }
 
 // ==========================================
+// GENERATE VIDEO THUMBNAIL
+// ==========================================
+
+async function generateVideoThumbnail(file) {
+  return new Promise((resolve) => {
+    const blob = new Blob([file], {
+      type: "video/mp4",
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const video = document.createElement("video");
+
+    video.src = url;
+
+    video.muted = true;
+
+    video.playsInline = true;
+
+    video.addEventListener("loadeddata", () => {
+      video.currentTime = 1;
+    });
+
+    video.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+
+      canvas.width = video.videoWidth;
+
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0);
+
+      resolve(canvas.toDataURL("image/jpeg"));
+
+      URL.revokeObjectURL(url);
+    });
+  });
+}
+
+// ==========================================
 // CREATE VIDEO CARD
 // ==========================================
 
 async function createVideoCard(fileHandle) {
   const file = await fileHandle.getFile();
+
+  const thumb = await generateVideoThumbnail(file);
 
   const card = document.createElement("div");
 
@@ -53,15 +97,25 @@ async function createVideoCard(fileHandle) {
 
   card.innerHTML = `
 
-    <div class="video-thumb">
+        <img
+            class="media-image"
+            src="${thumb}"
+        >
 
-        <i
-        class="fa-solid fa-circle-play"
-        ></i>
+        <div
+            class="play-overlay"
+        >
 
-    </div>
+            <i
+            class="
+            fa-solid
+            fa-play
+            "
+            ></i>
 
-`;
+        </div>
+
+    `;
 
   return card;
 }
