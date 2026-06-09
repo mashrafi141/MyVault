@@ -1,27 +1,26 @@
-
 // ==========================================
 // SUPPORTED EXTENSIONS
 // ==========================================
 
 const PHOTO_EXTENSIONS = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".webp",
-    ".gif",
-    ".bmp",
-    ".heic",
-    ".dat"
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".bmp",
+  ".heic",
+  ".dat",
 ];
 
 const VIDEO_EXTENSIONS = [
-    ".mp4",
-    ".mkv",
-    ".avi",
-    ".mov",
-    ".webm",
-    ".3gp",
-    ".hid"
+  ".mp4",
+  ".mkv",
+  ".avi",
+  ".mov",
+  ".webm",
+  ".3gp",
+  ".hid",
 ];
 
 // ==========================================
@@ -29,129 +28,74 @@ const VIDEO_EXTENSIONS = [
 // ==========================================
 
 async function scanVault() {
+  if (!vaultFolderHandle) {
+    console.log("No vault folder selected");
+    return;
+  }
 
-    if (!vaultFolderHandle) {
-        console.log("No vault folder selected");
-        return;
+  const folders = [];
+
+  try {
+    for await (const entry of vaultFolderHandle.values()) {
+      if (entry.kind !== "directory") continue;
+
+      if (!entry.name.startsWith(".")) continue;
+
+      const stats = await scanFolder(entry);
+
+      folders.push({
+        name: entry.name,
+
+        photos: stats.photos,
+
+        videos: stats.videos,
+
+        totalSize: stats.totalSize,
+      });
     }
 
-    const folders = [];
+    renderVaultFolders(folders);
 
-    try {
-
-        for await (
-            const entry
-            of vaultFolderHandle.values()
-        ) {
-
-            if (entry.kind !== "directory")
-                continue;
-
-            if (!entry.name.startsWith("."))
-                continue;
-
-            const stats =
-            await scanFolder(entry);
-
-            folders.push({
-
-                name: entry.name,
-
-                photos: stats.photos,
-
-                videos: stats.videos,
-
-                totalSize: stats.totalSize
-
-            });
-
-        }
-
-        renderVaultFolders(
-            folders
-        );
-
-    }
-    catch (error) {
-
-        console.error(error);
-
-    }
-
+    await updateVaultInfo();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // ==========================================
 // SCAN SINGLE FOLDER
 // ==========================================
 
-async function scanFolder(
-    folderHandle
-) {
+async function scanFolder(folderHandle) {
+  let photos = 0;
+  let videos = 0;
+  let totalSize = 0;
 
-    let photos = 0;
-    let videos = 0;
-    let totalSize = 0;
+  try {
+    for await (const item of folderHandle.values()) {
+      if (item.kind !== "file") continue;
 
-    try {
+      const file = await item.getFile();
 
-        for await (
-            const item
-            of folderHandle.values()
-        ) {
+      totalSize += file.size;
 
-            if (
-                item.kind !== "file"
-            )
-                continue;
+      const name = item.name.toLowerCase();
 
-            const file =
-            await item.getFile();
-
-            totalSize +=
-            file.size;
-
-            const name =
-            item.name.toLowerCase();
-
-            if (
-                PHOTO_EXTENSIONS.some(
-                    ext =>
-                    name.endsWith(ext)
-                )
-            ) {
-
-                photos++;
-
-            }
-
-            else if (
-                VIDEO_EXTENSIONS.some(
-                    ext =>
-                    name.endsWith(ext)
-                )
-            ) {
-
-                videos++;
-
-            }
-
-        }
-
+      if (PHOTO_EXTENSIONS.some((ext) => name.endsWith(ext))) {
+        photos++;
+      } else if (VIDEO_EXTENSIONS.some((ext) => name.endsWith(ext))) {
+        videos++;
+      }
     }
-    catch (error) {
+  } catch (error) {
+    console.error(error);
+  }
 
-        console.error(error);
-
-    }
-
-    return {
-
-        photos,
-        videos,
-        totalSize
-
-    };
-
+  return {
+    photos,
+    videos,
+    totalSize,
+  };
 }
 
 // ==========================================
@@ -159,53 +103,49 @@ async function scanFolder(
 // ==========================================
 
 function formatSize(bytes) {
+  if (bytes < 1024) return bytes + " B";
 
-    if (bytes < 1024)
-        return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
 
-    if (bytes < 1024 * 1024)
-        return (
-            bytes / 1024
-        ).toFixed(1) + " KB";
+  if (bytes < 1024 * 1024 * 1024)
+    return (bytes / 1024 / 1024).toFixed(1) + " MB";
 
-    if (bytes < 1024 * 1024 * 1024)
-        return (
-            bytes /
-            1024 /
-            1024
-        ).toFixed(1) + " MB";
+  return (bytes / 1024 / 1024 / 1024).toFixed(1) + " GB";
+}
 
-    return (
-        bytes /
-        1024 /
-        1024 /
-        1024
-    ).toFixed(1) + " GB";
+// ==========================================
+// RECURSIVE SIZE
+// ==========================================
 
+async function getFolderSize(folderHandle) {
+  let size = 0;
+
+  for await (const item of folderHandle.values()) {
+    if (item.kind === "file") {
+      const file = await item.getFile();
+
+      size += file.size;
+    } else if (item.kind === "directory") {
+      size += await getFolderSize(item);
+    }
+  }
+
+  return size;
 }
 
 // ==========================================
 // RENDER FOLDERS
 // ==========================================
 
-function renderVaultFolders(
-    folders
-) {
+function renderVaultFolders(folders) {
+  const grid = document.getElementById("folder-grid");
 
-    const grid =
-    document.getElementById(
-        "folder-grid"
-    );
+  if (!grid) return;
 
-    if (!grid) return;
+  grid.innerHTML = "";
 
-    grid.innerHTML = "";
-
-    if (
-        folders.length === 0
-    ) {
-
-        grid.innerHTML = `
+  if (folders.length === 0) {
+    grid.innerHTML = `
 
         <div class="empty-state">
 
@@ -221,22 +161,15 @@ function renderVaultFolders(
 
         `;
 
-        return;
+    return;
+  }
 
-    }
+  folders.forEach((folder) => {
+    const card = document.createElement("div");
 
-    folders.forEach(
-        folder => {
+    card.className = "folder-card";
 
-            const card =
-            document.createElement(
-                "div"
-            );
-
-            card.className =
-            "folder-card";
-
-            card.innerHTML = `
+    card.innerHTML = `
 
                 <i class="fa-solid fa-folder"></i>
 
@@ -266,168 +199,80 @@ function renderVaultFolders(
 
             `;
 
-            card.addEventListener(
-                "click",
-                () => {
+    card.addEventListener("click", () => {
+      openFolder(folder.name);
+    });
 
-                    openFolder(
-                        folder.name
-                    );
+    grid.appendChild(card);
+  });
 
-                }
-            );
-
-            grid.appendChild(
-                card
-            );
-
-        }
-    );
-
-    updateDashboardStats(
-        folders
-    );
-
+  updateDashboardStats(folders);
 }
 
 // ==========================================
 // UPDATE STATS
 // ==========================================
 
-function updateDashboardStats(
-    folders
-) {
+function updateDashboardStats(folders) {
+  const folderCount = document.getElementById("folder-count");
 
-    const folderCount =
-    document.getElementById(
-        "folder-count"
-    );
+  const photoCount = document.getElementById("photo-count");
 
-    const photoCount =
-    document.getElementById(
-        "photo-count"
-    );
+  const videoCount = document.getElementById("video-count");
 
-    const videoCount =
-    document.getElementById(
-        "video-count"
-    );
+  let totalPhotos = 0;
+  let totalVideos = 0;
 
-    let totalPhotos = 0;
-    let totalVideos = 0;
+  folders.forEach((folder) => {
+    totalPhotos += folder.photos;
 
-    folders.forEach(
-        folder => {
+    totalVideos += folder.videos;
+  });
 
-            totalPhotos +=
-            folder.photos;
+  if (folderCount) folderCount.textContent = folders.length;
 
-            totalVideos +=
-            folder.videos;
+  if (photoCount) photoCount.textContent = totalPhotos;
 
-        }
-    );
-
-    if (folderCount)
-        folderCount.textContent =
-        folders.length;
-
-    if (photoCount)
-        photoCount.textContent =
-        totalPhotos;
-
-    if (videoCount)
-        videoCount.textContent =
-        totalVideos;
-
+  if (videoCount) videoCount.textContent = totalVideos;
 }
 
 // ==========================================
 // OPEN FOLDER
 // ==========================================
 
-async function openFolder(
-    folderName
-) {
+async function openFolder(folderName) {
+  if (!vaultFolderHandle) return;
 
-    if (!vaultFolderHandle)
-        return;
+  let targetFolder = null;
 
-    let targetFolder =
-    null;
+  for await (const entry of vaultFolderHandle.values()) {
+    if (entry.kind === "directory" && entry.name === folderName) {
+      targetFolder = entry;
 
-    for await (
-        const entry
-        of vaultFolderHandle.values()
-    ) {
-
-        if (
-            entry.kind ===
-            "directory"
-            &&
-            entry.name ===
-            folderName
-        ) {
-
-            targetFolder =
-            entry;
-
-            break;
-
-        }
-
+      break;
     }
+  }
 
-    if (!targetFolder)
-        return;
+  if (!targetFolder) return;
 
-    document
-        .getElementById(
-            "media-title"
-        )
-        .textContent =
-        folderName;
+  document.getElementById("media-title").textContent = folderName;
 
-    const mediaGrid =
-    document.getElementById(
-        "media-grid"
-    );
+  const mediaGrid = document.getElementById("media-grid");
 
-    mediaGrid.innerHTML = "";
+  mediaGrid.innerHTML = "";
 
-    for await (
-        const item
-        of targetFolder.values()
-    ) {
+  for await (const item of targetFolder.values()) {
+    if (item.kind !== "file") continue;
 
-        if (
-            item.kind !==
-            "file"
-        )
-            continue;
+    const isVideo = item.name.toLowerCase().endsWith(".hid");
 
-        const isVideo =
-        item.name
-        .toLowerCase()
-        .endsWith(".hid");
+    const card = document.createElement("div");
 
-        const card =
-        document.createElement(
-            "div"
-        );
+    card.className = "media-card";
 
-        card.className =
-        "media-card";
+    card.innerHTML = `
 
-        card.innerHTML = `
-
-            <i class="fa-solid ${
-                isVideo
-                ?
-                "fa-video"
-                :
-                "fa-image"
-            }"></i>
+            <i class="fa-solid ${isVideo ? "fa-video" : "fa-image"}"></i>
 
             <span>
 
@@ -437,14 +282,39 @@ async function openFolder(
 
         `;
 
-        mediaGrid.appendChild(
-            card
-        );
+    mediaGrid.appendChild(card);
+  }
 
+  showScreen("media-screen");
+}
+
+// ==========================================
+// UPDATE VAULT INFO
+// ==========================================
+
+async function updateVaultInfo() {
+  if (!vaultFolderHandle) return;
+
+  let folderCount = 0;
+  let totalSize = 0;
+
+  for await (const entry of vaultFolderHandle.values()) {
+    if (entry.kind === "directory") {
+      folderCount++;
+
+      totalSize += await getFolderSize(entry);
     }
+  }
 
-    showScreen(
-        "media-screen"
-    );
+  const folderName = document.getElementById("vault-folder-name");
 
+  const folderInfo = document.getElementById("vault-folder-info");
+
+  if (folderName) {
+    folderName.textContent = vaultFolderHandle.name;
+  }
+
+  if (folderInfo) {
+    folderInfo.textContent = `${folderCount} folders • ${formatSize(totalSize)}`;
+  }
 }
