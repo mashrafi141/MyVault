@@ -41,6 +41,24 @@ async function scanVault() {
       folderInfo.textContent = "Select your vault folder";
     }
 
+    const vaultBadge = document.getElementById("vault-badge");
+
+    if (vaultBadge) {
+      vaultBadge.classList.remove("connected");
+
+      vaultBadge.classList.add("disconnected");
+
+      vaultBadge.innerHTML = `
+
+        <span
+            class="status-dot"
+        ></span>
+
+        No Folder Connected
+
+    `;
+    }
+
     return;
   }
 
