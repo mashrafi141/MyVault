@@ -1,34 +1,853 @@
+/* ==========================================
+   GOOGLE FONT
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ==========================================
+   ROOT
+========================================== */
+
+:root {
+
+    --bg: #050816;
+
+    --card: rgba(255, 255, 255, 0.05);
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --blue: #3b82f6;
+
+    --blue-light: #60a5fa;
+
+    --text: #ffffff;
+
+    --muted: #94a3b8;
+
+    --shadow:
+        0 8px 40px rgba(0, 0, 0, .45);
+
+}
+
+/* ==========================================
+   RESET
+========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    color: white;
+
+    background:
+        radial-gradient(circle at top,
+            rgba(59, 130, 246, .20),
+            transparent 40%),
+        radial-gradient(circle at bottom,
+            rgba(96, 165, 250, .08),
+            transparent 30%),
+        #050816;
+
+}
+
+/* ==========================================
+   SCREENS
+========================================== */
+
+.screen {
+
+    display: none;
+
+    width: 100%;
+    height: 100vh;
+
+}
+
+.screen.active {
+
+    display: flex;
+
+}
+
+/* ==========================================
+   SPLASH
+========================================== */
+
+#splash-screen {
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.logo-container {
+
+    text-align: center;
+
+}
+
+.vault-logo {
+
+    width: 130px;
+    height: 130px;
+
+    margin: auto;
+
+    border-radius: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 3.5rem;
+
+    background: rgba(255, 255, 255, .06);
+
+    backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+    box-shadow:
+        0 0 25px rgba(59, 130, 246, .35),
+        0 0 70px rgba(59, 130, 246, .20);
+
+}
+
+.logo-container h1 {
+
+    margin-top: 25px;
+
+    letter-spacing: 6px;
+
+    font-size: 2rem;
+
+}
+
+.logo-container p {
+
+    margin-top: 10px;
+
+    color: var(--muted);
+
+}
+
+/* ==========================================
+   AUTH
+========================================== */
+
+#create-pin-screen,
+#login-screen {
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 22px;
+
+}
+
+.auth-wrapper {
+
+    width: 100%;
+
+}
+
+.auth-card {
+
+    width: 100%;
+
+    padding: 28px;
+
+    border-radius: 30px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(30px);
+
+    box-shadow: var(--shadow);
+
+}
+
+.auth-icon {
+
+    width: 75px;
+    height: 75px;
+
+    border-radius: 22px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.7rem;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 0 30px rgba(59, 130, 246, .45);
+
+}
+
+.auth-card h2 {
+
+    font-size: 1.7rem;
+
+}
+
+.auth-card p {
+
+    color: var(--muted);
+
+    margin-top: 8px;
+
+    margin-bottom: 25px;
+
+}
+
+.auth-card input {
+
+    width: 100%;
+    height: 58px;
+
+    margin-bottom: 15px;
+
+    border: none;
+    outline: none;
+
+    color: white;
+
+    border-radius: 18px;
+
+    padding: 0 18px;
+
+    background:
+        rgba(255, 255, 255, .04);
+
+    border:
+        1px solid rgba(255, 255, 255, .05);
+
+    font-size: 1rem;
+
+}
+
+.auth-card input:focus {
+
+    border:
+        1px solid rgba(59, 130, 246, .7);
+
+}
+
+.auth-card button {
+
+    width: 100%;
+    height: 58px;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-weight: 700;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 0 25px rgba(59, 130, 246, .45);
+
+}
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+#dashboard-screen {
+
+    flex-direction: column;
+
+}
+
+/* ==========================================
+   TOPBAR
+========================================== */
+
+.topbar {
+
+    height: 80px;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+.topbar h1 {
+
+    font-size: 1.5rem;
+
+}
+
+.topbar span {
+
+    color: var(--muted);
+
+    font-size: .85rem;
+
+}
+
+.icon-btn {
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: white;
+
+    font-size: 1.1rem;
+
+    border-radius: 16px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(20px);
+
+}
+
+/* ==========================================
+   MAIN
+========================================== */
+
+main {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+}
+
+/* ==========================================
+   HERO CARD
+========================================== */
+
+.hero-card {
+
+    padding: 22px;
+
+    border-radius: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(25px);
+
+    box-shadow:
+        0 0 30px rgba(59, 130, 246, .10),
+        0 0 80px rgba(59, 130, 246, .08),
+        0 8px 40px rgba(0, 0, 0, .45);
+
+}
+
+.hero-left {
+
+    flex: 1;
+
+}
+
+.vault-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
+
+    font-size: .75rem;
+
+    font-weight: 600;
+
+    margin-bottom: 12px;
+
+    border: 1px solid;
+
+}
+
+.status-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+}
+
+/* ==========================
+   CONNECTED
+========================== */
+
+.vault-badge.connected {
+
+    color: #4ade80;
+
+    background:
+        rgba(74, 222, 128, .12);
+
+    border-color:
+        rgba(74, 222, 128, .25);
+
+}
+
+.vault-badge.connected .status-dot {
+
+    background: #4ade80;
+
+    box-shadow:
+        0 0 8px #4ade80,
+        0 0 16px #4ade80;
+
+}
+
+/* ==========================
+   DISCONNECTED
+========================== */
+
+.vault-badge.disconnected {
+
+    color: #f87171;
+
+    background:
+        rgba(248, 113, 113, .12);
+
+    border-color:
+        rgba(248, 113, 113, .25);
+
+}
+
+.vault-badge.disconnected .status-dot {
+
+    background: #f87171;
+
+    box-shadow:
+        0 0 8px #f87171,
+        0 0 16px #f87171;
+
+}
+
+.hero-card h2 {
+
+    font-size: 1.3rem;
+
+}
+
+.hero-card p {
+
+    color: var(--muted);
+
+    margin-top: 8px;
+
+}
+
+.hero-icon {
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.6rem;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 0 25px rgba(59, 130, 246, .45);
+
+}
+
+/* ==========================================
+   STATS
+========================================== */
+
+.stats-grid {
+
+    margin-top: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+}
+
+.stat-card {
+
+    text-align: center;
+
+    padding: 18px 10px;
+
+    border-radius: 22px;
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(25px);
+
+}
+
+.stat-card i {
+
+    font-size: 1.3rem;
+
+    color: #60a5fa;
+
+}
+
+.stat-card h3 {
+
+    margin-top: 10px;
+
+    font-size: 1.3rem;
+
+}
+
+.stat-card span {
+
+    color: var(--muted);
+
+    font-size: .8rem;
+
+}
+
+/* ==========================================
+   SECTION TITLE
+========================================== */
+
+.section-title {
+
+    margin-top: 28px;
+    margin-bottom: 15px;
+
+}
+
+.section-title h3 {
+
+    font-size: 1rem;
+
+}
+
+/* ==========================================
+   FOLDERS
+========================================== */
+
+#folder-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+    padding-bottom: 120px;
+
+}
+
+.folder-card {
+
+    padding: 18px;
+
+    border-radius: 24px;
+
+    background:
+        rgba(255, 255, 255, .05);
+
+    border:
+        1px solid rgba(255, 255, 255, .08);
+
+    backdrop-filter:
+        blur(35px);
+
+    -webkit-backdrop-filter:
+        blur(35px);
+
+    transition: .25s;
+
+    box-shadow:
+        0 0 25px rgba(59, 130, 246, .10),
+        0 0 60px rgba(59, 130, 246, .08);
+
+}
+
+.folder-card:active {
+
+    transform: scale(.97);
+
+}
+
+.folder-card i {
+
+    font-size: 1.8rem;
+
+    color: #60a5fa;
+
+}
+
+.folder-card h4 {
+
+    margin-top: 15px;
+
+}
+
+.folder-card p {
+
+    margin-top: 6px;
+
+    font-size: .85rem;
+
+    color: var(--muted);
+
+}
+
+/* ==========================================
+   BOTTOM NAV
+========================================== */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 18px;
+
+    left: 18px;
+
+    right: 18px;
+
+    height: 70px;
+
+    border-radius: 24px;
+
+    background:
+        rgba(255, 255, 255, .06);
+
+    border:
+        1px solid rgba(255, 255, 255, .08);
+
+    backdrop-filter: blur(25px);
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+}
+
+.nav-btn {
+
+    width: 52px;
+    height: 52px;
+
+    border: none;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 1.2rem;
+
+    border-radius: 16px;
+
+    background: transparent;
+
+}
+
+.nav-btn.active {
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 0 20px rgba(59, 130, 246, .45);
+
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar {
+
+    width: 4px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #1e293b;
+
+    border-radius: 10px;
+
+}
+
+.action-area {
+
+    margin-top: 18px;
+
+}
+
+.primary-btn {
+
+    width: 100%;
+
+    height: 58px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 0 25px rgba(59, 130, 246, .35);
+
+}
+
+
+.empty-state {
+
+    width: 100%;
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+    background:
+        rgba(255, 255, 255, .04);
+
+    border:
+        1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 25px;
+
+}
+
+.empty-state i {
+
+    font-size: 3rem;
+
+    color: #60a5fa;
+
+}
+
+.empty-state h3 {
+
+    margin-top: 15px;
+
+}
+
+.empty-state p {
+
+    margin-top: 10px;
+
+    color: #94a3b8;
+
+}
+
 /* ==========================
    MEDIA SCREEN
 ========================== */
 
-#media-screen{
+#media-screen {
 
-    flex-direction:column;
-
-}
-
-.media-header{
-
-    height:72px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    padding:0 16px;
-
-    flex-shrink:0;
+    flex-direction: column;
 
 }
 
-.media-header h2{
+.media-header {
 
-    font-size:1.1rem;
+    height: 72px;
 
-    font-weight:600;
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 16px;
+
+    flex-shrink: 0;
+
+}
+
+.media-header h2 {
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
 
 }
 
@@ -36,24 +855,24 @@
    GRID
 ========================== */
 
-.media-grid{
+.media-grid {
 
-    flex:1;
+    flex: 1;
 
-    overflow-y:auto;
+    overflow-y: auto;
 
-    padding:12px;
+    padding: 12px;
 
-    display:grid;
+    display: grid;
 
     grid-template-columns:
-    repeat(4,minmax(0,1fr));
+        repeat(4, minmax(0, 1fr));
 
-    gap:8px;
+    gap: 8px;
 
-    align-content:start;
+    align-content: start;
 
-    align-items:start;
+    align-items: start;
 
 }
 
@@ -61,25 +880,25 @@
    CARD
 ========================== */
 
-.media-card{
+.media-card {
 
-    position:relative;
+    position: relative;
 
-    width:100%;
+    width: 100%;
 
-    aspect-ratio:1/1;
+    aspect-ratio: 1/1;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    border-radius:14px;
+    border-radius: 14px;
 
     background:
-    rgba(255,255,255,.04);
+        rgba(255, 255, 255, .04);
 
     border:
-    1px solid rgba(255,255,255,.05);
+        1px solid rgba(255, 255, 255, .05);
 
-    box-sizing:border-box;
+    box-sizing: border-box;
 
 }
 
@@ -87,15 +906,15 @@
    IMAGE
 ========================== */
 
-.media-image{
+.media-image {
 
-    width:100%;
+    width: 100%;
 
-    height:100%;
+    height: 100%;
 
-    object-fit:cover;
+    object-fit: cover;
 
-    display:block;
+    display: block;
 
 }
 
@@ -103,32 +922,30 @@
    VIDEO
 ========================== */
 
-.video-thumb{
+.video-thumb {
 
-    width:100%;
+    width: 100%;
 
-    height:100%;
+    height: 100%;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    justify-content:center;
+    justify-content: center;
 
     background:
-    linear-gradient(
-        135deg,
-        rgba(59,130,246,.15),
-        rgba(96,165,250,.05)
-    );
+        linear-gradient(135deg,
+            rgba(59, 130, 246, .15),
+            rgba(96, 165, 250, .05));
 
 }
 
-.video-thumb i{
+.video-thumb i {
 
-    font-size:1.5rem;
+    font-size: 1.5rem;
 
-    color:#60a5fa;
+    color: #60a5fa;
 
 }
 
@@ -136,8 +953,73 @@
    HIDE NAME
 ========================== */
 
-.media-name{
+.media-name {
 
-    display:none;
+    display: none;
+
+}
+
+/* ==========================================
+   FOLDER CARD V2
+========================================== */
+
+.folder-meta {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 12px;
+
+}
+
+.folder-meta span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: .85rem;
+
+    color: #94a3b8;
+
+}
+
+.folder-meta i {
+
+    font-size: .85rem;
+
+    color: #60a5fa;
+
+}
+
+.folder-size {
+
+    margin-top: 12px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, .08);
+
+    font-size: .8rem;
+
+    color: #60a5fa;
+
+    font-weight: 600;
+
+}
+
+/* ==========================================
+   EMPTY STATE FIX
+========================================== */
+
+.empty-state {
+
+    grid-column: 1/-1;
 
 }
