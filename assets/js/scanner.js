@@ -305,33 +305,7 @@ async function openFolder(folderName) {
 
   document.getElementById("media-title").textContent = folderName;
 
-  const mediaGrid = document.getElementById("media-grid");
-
-  mediaGrid.innerHTML = "";
-
-  for await (const item of targetFolder.values()) {
-    if (item.kind !== "file") continue;
-
-    const isVideo = item.name.toLowerCase().endsWith(".hid");
-
-    const card = document.createElement("div");
-
-    card.className = "media-card";
-
-    card.innerHTML = `
-
-            <i class="fa-solid ${isVideo ? "fa-video" : "fa-image"}"></i>
-
-            <span>
-
-                ${item.name}
-
-            </span>
-
-        `;
-
-    mediaGrid.appendChild(card);
-  }
+  await renderMediaGrid(targetFolder);
 
   showScreen("media-screen");
 }
