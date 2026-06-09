@@ -46,39 +46,59 @@ async function createImageCard(fileHandle) {
 
 async function generateVideoThumbnail(file) {
   return new Promise((resolve) => {
-    const blob = new Blob([file], {
-      type: "video/mp4",
-    });
+    try {
+      const blob = file.slice(0, file.size, "video/mp4");
 
-    const url = URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
 
-    const video = document.createElement("video");
+      const video = document.createElement("video");
 
-    video.src = url;
+      video.preload = "metadata";
 
-    video.muted = true;
+      video.muted = true;
 
-    video.playsInline = true;
+      video.playsInline = true;
 
-    video.addEventListener("loadeddata", () => {
-      video.currentTime = 1;
-    });
+      video.src = url;
 
-    video.addEventListener("seeked", () => {
-      const canvas = document.createElement("canvas");
+      video.onloadedmetadata = () => {
+        const seekTime = Math.min(0.1, Math.max(0, video.duration / 4));
 
-      canvas.width = video.videoWidth;
+        video.currentTime = seekTime;
+      };
 
-      canvas.height = video.videoHeight;
+      video.onseeked = () => {
+        try {
+          const canvas = document.createElement("canvas");
 
-      const ctx = canvas.getContext("2d");
+          canvas.width = video.videoWidth || 320;
 
-      ctx.drawImage(video, 0, 0);
+          canvas.height = video.videoHeight || 180;
 
-      resolve(canvas.toDataURL("image/jpeg"));
+          const ctx = canvas.getContext("2d");
 
-      URL.revokeObjectURL(url);
-    });
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const thumb = canvas.toDataURL("image/jpeg", 0.8);
+
+          URL.revokeObjectURL(url);
+
+          resolve(thumb);
+        } catch {
+          URL.revokeObjectURL(url);
+
+          resolve(null);
+        }
+      };
+
+      video.onerror = () => {
+        URL.revokeObjectURL(url);
+
+        resolve(null);
+      };
+    } catch {
+      resolve(null);
+    }
   });
 }
 
