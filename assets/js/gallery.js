@@ -1,4 +1,12 @@
 // ==========================================
+// VIEWER DATA
+// ==========================================
+
+let mediaList = [];
+
+let currentMediaIndex = 0;
+
+// ==========================================
 // CLEAN FILE NAME
 // ==========================================
 
@@ -40,22 +48,16 @@ async function createImageCard(fileHandle) {
   return card;
 }
 
-
 // ==========================================
 // CREATE VIDEO CARD
 // ==========================================
 
 async function createVideoCard(fileHandle) {
+  const card = document.createElement("div");
 
-    const card =
-    document.createElement(
-        "div"
-    );
+  card.className = "media-card";
 
-    card.className =
-    "media-card";
-
-    card.innerHTML = `
+  card.innerHTML = `
 
         <div class="video-thumb">
 
@@ -67,8 +69,7 @@ async function createVideoCard(fileHandle) {
 
     `;
 
-    return card;
-
+  return card;
 }
 
 // ==========================================
@@ -82,19 +83,41 @@ async function renderMediaGrid(folderHandle) {
 
   mediaGrid.innerHTML = "";
 
+  mediaList = [];
+
+  let index = 0;
+
   for await (const item of folderHandle.values()) {
     if (item.kind !== "file") continue;
 
     const lower = item.name.toLowerCase();
 
+    const isVideo = lower.endsWith(".hid");
+
+    mediaList.push({
+      fileHandle: item,
+
+      type: isVideo ? "video" : "image",
+    });
+
     let card;
 
-    if (lower.endsWith(".hid")) {
+    if (isVideo) {
       card = await createVideoCard(item);
     } else {
       card = await createImageCard(item);
     }
 
+    const currentIndex = index;
+
+    card.addEventListener("click", () => {
+      currentMediaIndex = currentIndex;
+
+      openViewer();
+    });
+
     mediaGrid.appendChild(card);
+
+    index++;
   }
 }
