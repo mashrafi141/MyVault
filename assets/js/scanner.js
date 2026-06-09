@@ -29,7 +29,18 @@ const VIDEO_EXTENSIONS = [
 
 async function scanVault() {
   if (!vaultFolderHandle) {
-    console.log("No vault folder selected");
+    const folderName = document.getElementById("vault-folder-name");
+
+    const folderInfo = document.getElementById("vault-folder-info");
+
+    if (folderName) {
+      folderName.textContent = "No Folder Connected";
+    }
+
+    if (folderInfo) {
+      folderInfo.textContent = "Select your vault folder";
+    }
+
     return;
   }
 
@@ -103,12 +114,17 @@ async function scanFolder(folderHandle) {
 // ==========================================
 
 function formatSize(bytes) {
-  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024) {
+    return bytes + " B";
+  }
 
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  if (bytes < 1024 * 1024) {
+    return (bytes / 1024).toFixed(1) + " KB";
+  }
 
-  if (bytes < 1024 * 1024 * 1024)
+  if (bytes < 1024 * 1024 * 1024) {
     return (bytes / 1024 / 1024).toFixed(1) + " MB";
+  }
 
   return (bytes / 1024 / 1024 / 1024).toFixed(1) + " GB";
 }
@@ -151,7 +167,9 @@ function renderVaultFolders(folders) {
 
             <i class="fa-solid fa-folder-open"></i>
 
-            <h3>No Hidden Folder</h3>
+            <h3>
+                No Hidden Folder
+            </h3>
 
             <p>
                 Hide a folder first
@@ -171,33 +189,39 @@ function renderVaultFolders(folders) {
 
     card.innerHTML = `
 
-                <i class="fa-solid fa-folder"></i>
+            <i class="fa-solid fa-folder"></i>
 
-                <h4>
-                    ${folder.name}
-                </h4>
+            <h4>
+                ${folder.name}
+            </h4>
 
-                <div class="folder-meta">
+            <div class="folder-meta">
 
-                    <span>
-                        <i class="fa-solid fa-image"></i>
-                        ${folder.photos}
-                    </span>
+                <span>
 
-                    <span>
-                        <i class="fa-solid fa-video"></i>
-                        ${folder.videos}
-                    </span>
+                    <i class="fa-solid fa-image"></i>
 
-                </div>
+                    ${folder.photos}
 
-                <div class="folder-size">
+                </span>
 
-                    ${formatSize(folder.totalSize)}
+                <span>
 
-                </div>
+                    <i class="fa-solid fa-video"></i>
 
-            `;
+                    ${folder.videos}
+
+                </span>
+
+            </div>
+
+            <div class="folder-size">
+
+                ${formatSize(folder.totalSize)}
+
+            </div>
+
+        `;
 
     card.addEventListener("click", () => {
       openFolder(folder.name);
@@ -229,11 +253,17 @@ function updateDashboardStats(folders) {
     totalVideos += folder.videos;
   });
 
-  if (folderCount) folderCount.textContent = folders.length;
+  if (folderCount) {
+    folderCount.textContent = folders.length;
+  }
 
-  if (photoCount) photoCount.textContent = totalPhotos;
+  if (photoCount) {
+    photoCount.textContent = totalPhotos;
+  }
 
-  if (videoCount) videoCount.textContent = totalVideos;
+  if (videoCount) {
+    videoCount.textContent = totalVideos;
+  }
 }
 
 // ==========================================
@@ -310,11 +340,17 @@ async function updateVaultInfo() {
 
   const folderInfo = document.getElementById("vault-folder-info");
 
+  const vaultStatus = document.getElementById("vault-status");
+
   if (folderName) {
     folderName.textContent = vaultFolderHandle.name;
   }
 
   if (folderInfo) {
     folderInfo.textContent = `${folderCount} folders • ${formatSize(totalSize)}`;
+  }
+
+  if (vaultStatus) {
+    vaultStatus.textContent = "Connected";
   }
 }
