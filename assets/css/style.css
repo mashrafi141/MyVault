@@ -849,18 +849,18 @@ main {
 
 .media-grid {
 
-    flex: 1;
+    flex:1;
 
-    overflow-y: auto;
+    overflow-y:auto;
 
-    padding: 15px;
+    padding:12px;
 
-    display: grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+    repeat(4,1fr);
 
-    gap: 12px;
+    gap:8px;
 
 }
 
@@ -870,34 +870,25 @@ main {
 
 .media-card {
 
-    overflow: hidden;
+    overflow:hidden;
 
-    border-radius: 24px;
+    aspect-ratio:1;
+
+    border-radius:14px;
 
     background:
-        rgba(255, 255, 255, .05);
+    rgba(255,255,255,.04);
 
     border:
-        1px solid rgba(255, 255, 255, .08);
-
-    backdrop-filter:
-        blur(20px);
-
-    box-shadow:
-        0 0 20px rgba(59, 130, 246, .08);
-
-    transition:
-        .25s;
+    1px solid rgba(255,255,255,.05);
 
 }
 
 .media-thumb {
 
-    width: 100%;
+    width:100%;
 
-    aspect-ratio: 1;
-
-    overflow: hidden;
+    height:100%;
 
 }
 
@@ -915,46 +906,36 @@ main {
 
 .video-thumb {
 
-    width: 100%;
+    width:100%;
 
-    aspect-ratio: 1;
+    height:100%;
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    justify-content: center;
+    justify-content:center;
 
     background:
-        linear-gradient(135deg,
-            rgba(59, 130, 246, .20),
-            rgba(96, 165, 250, .08));
+    linear-gradient(
+        135deg,
+        rgba(59,130,246,.15),
+        rgba(96,165,250,.05)
+    );
 
 }
 
 .video-thumb i {
 
-    font-size: 3rem;
+    font-size:1.8rem;
 
-    color: #60a5fa;
+    color:#60a5fa;
 
 }
 
-.media-name {
+.media-name{
 
-    padding: 10px;
-
-    font-size: .78rem;
-
-    text-align: center;
-
-    color: #e2e8f0;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
+    display:none;
 
 }
 
