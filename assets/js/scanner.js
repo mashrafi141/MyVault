@@ -360,6 +360,8 @@ async function updateVaultInfo() {
 
   const vaultStatus = document.getElementById("vault-status");
 
+  const vaultBadge = document.getElementById("vault-badge");
+
   if (folderName) {
     folderName.textContent = vaultFolderHandle.name;
   }
