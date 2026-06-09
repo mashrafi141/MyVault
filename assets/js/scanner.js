@@ -353,4 +353,20 @@ async function updateVaultInfo() {
   if (vaultStatus) {
     vaultStatus.textContent = "Connected";
   }
+
+  if (vaultBadge) {
+    vaultBadge.classList.remove("disconnected");
+
+    vaultBadge.classList.add("connected");
+
+    vaultBadge.innerHTML = `
+
+        <span
+            class="status-dot"
+        ></span>
+
+        Connected
+
+    `;
+  }
 }
