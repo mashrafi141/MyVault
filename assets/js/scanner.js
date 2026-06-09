@@ -1,3 +1,4 @@
+
 // ==========================================
 // SUPPORTED EXTENSIONS
 // ==========================================
@@ -60,9 +61,7 @@ async function scanVault() {
 
                 videos: stats.videos,
 
-                total:
-                stats.photos +
-                stats.videos
+                totalSize: stats.totalSize
 
             });
 
@@ -75,9 +74,7 @@ async function scanVault() {
     }
     catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
@@ -93,6 +90,7 @@ async function scanFolder(
 
     let photos = 0;
     let videos = 0;
+    let totalSize = 0;
 
     try {
 
@@ -106,10 +104,14 @@ async function scanFolder(
             )
                 continue;
 
+            const file =
+            await item.getFile();
+
+            totalSize +=
+            file.size;
+
             const name =
             item.name.toLowerCase();
-
-            // PHOTO
 
             if (
                 PHOTO_EXTENSIONS.some(
@@ -121,8 +123,6 @@ async function scanFolder(
                 photos++;
 
             }
-
-            // VIDEO
 
             else if (
                 VIDEO_EXTENSIONS.some(
@@ -140,18 +140,47 @@ async function scanFolder(
     }
     catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
     }
 
     return {
 
         photos,
-        videos
+        videos,
+        totalSize
 
     };
+
+}
+
+// ==========================================
+// FORMAT SIZE
+// ==========================================
+
+function formatSize(bytes) {
+
+    if (bytes < 1024)
+        return bytes + " B";
+
+    if (bytes < 1024 * 1024)
+        return (
+            bytes / 1024
+        ).toFixed(1) + " KB";
+
+    if (bytes < 1024 * 1024 * 1024)
+        return (
+            bytes /
+            1024 /
+            1024
+        ).toFixed(1) + " MB";
+
+    return (
+        bytes /
+        1024 /
+        1024 /
+        1024
+    ).toFixed(1) + " GB";
 
 }
 
@@ -171,8 +200,6 @@ function renderVaultFolders(
     if (!grid) return;
 
     grid.innerHTML = "";
-
-    // EMPTY
 
     if (
         folders.length === 0
@@ -198,8 +225,6 @@ function renderVaultFolders(
 
     }
 
-    // RENDER
-
     folders.forEach(
         folder => {
 
@@ -219,17 +244,38 @@ function renderVaultFolders(
                     ${folder.name}
                 </h4>
 
-                <p>
-                    📸 ${folder.photos}
-                    Photos
-                </p>
+                <div class="folder-meta">
 
-                <p>
-                    🎬 ${folder.videos}
-                    Videos
-                </p>
+                    <span>
+                        <i class="fa-solid fa-image"></i>
+                        ${folder.photos}
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-video"></i>
+                        ${folder.videos}
+                    </span>
+
+                </div>
+
+                <div class="folder-size">
+
+                    ${formatSize(folder.totalSize)}
+
+                </div>
 
             `;
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    openFolder(
+                        folder.name
+                    );
+
+                }
+            );
 
             grid.appendChild(
                 card
@@ -282,25 +328,123 @@ function updateDashboardStats(
         }
     );
 
-    if (folderCount) {
-
+    if (folderCount)
         folderCount.textContent =
         folders.length;
 
-    }
-
-    if (photoCount) {
-
+    if (photoCount)
         photoCount.textContent =
         totalPhotos;
 
-    }
-
-    if (videoCount) {
-
+    if (videoCount)
         videoCount.textContent =
         totalVideos;
 
+}
+
+// ==========================================
+// OPEN FOLDER
+// ==========================================
+
+async function openFolder(
+    folderName
+) {
+
+    if (!vaultFolderHandle)
+        return;
+
+    let targetFolder =
+    null;
+
+    for await (
+        const entry
+        of vaultFolderHandle.values()
+    ) {
+
+        if (
+            entry.kind ===
+            "directory"
+            &&
+            entry.name ===
+            folderName
+        ) {
+
+            targetFolder =
+            entry;
+
+            break;
+
+        }
+
     }
+
+    if (!targetFolder)
+        return;
+
+    document
+        .getElementById(
+            "media-title"
+        )
+        .textContent =
+        folderName;
+
+    const mediaGrid =
+    document.getElementById(
+        "media-grid"
+    );
+
+    mediaGrid.innerHTML = "";
+
+    for await (
+        const item
+        of targetFolder.values()
+    ) {
+
+        if (
+            item.kind !==
+            "file"
+        )
+            continue;
+
+        const isVideo =
+        item.name
+        .toLowerCase()
+        .endsWith(".hid");
+
+        const card =
+        document.createElement(
+            "div"
+        );
+
+        card.className =
+        "media-card";
+
+        card.innerHTML = `
+
+            <i class="fa-solid ${
+                isVideo
+                ?
+                "fa-video"
+                :
+                "fa-image"
+            }"></i>
+
+            <span>
+
+                ${item.name}
+
+            </span>
+
+        `;
+
+        mediaGrid.appendChild(
+            card
+        );
+
+    }
+
+    showScreen(
+        "media-screen"
+    );
 
 }
