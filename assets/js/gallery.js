@@ -3,186 +3,93 @@
 // ==========================================
 
 function getDisplayName(fileName) {
+  if (fileName.endsWith(".dat")) {
+    return fileName.slice(0, -4);
+  }
 
-    if (
-        fileName.endsWith(".dat")
-    ) {
+  if (fileName.endsWith(".hid")) {
+    return fileName.slice(0, -4);
+  }
 
-        return fileName.slice(
-            0,
-            -4
-        );
-
-    }
-
-    if (
-        fileName.endsWith(".hid")
-    ) {
-
-        return fileName.slice(
-            0,
-            -4
-        );
-
-    }
-
-    return fileName;
-
+  return fileName;
 }
 
 // ==========================================
 // CREATE IMAGE CARD
 // ==========================================
 
-async function createImageCard(
-    fileHandle
-) {
+async function createImageCard(fileHandle) {
+  const file = await fileHandle.getFile();
 
-    const file =
-    await fileHandle.getFile();
+  const url = URL.createObjectURL(file);
 
-    const url =
-    URL.createObjectURL(
-        file
-    );
+  const card = document.createElement("div");
 
-    const card =
-    document.createElement(
-        "div"
-    );
+  card.className = "media-card";
 
-    card.className =
-    "media-card";
+  card.innerHTML = `
 
-    card.innerHTML = `
+    <img
+        class="media-image"
+        src="${url}"
+        alt=""
+    >
 
-        <div class="media-thumb">
+`;
 
-            <img
-                src="${url}"
-                alt=""
-            >
-
-        </div>
-
-        <div class="media-name">
-
-            ${getDisplayName(
-                file.name
-            )}
-
-        </div>
-
-    `;
-
-    return card;
-
+  return card;
 }
 
 // ==========================================
 // CREATE VIDEO CARD
 // ==========================================
 
-async function createVideoCard(
-    fileHandle
-) {
+async function createVideoCard(fileHandle) {
+  const file = await fileHandle.getFile();
 
-    const file =
-    await fileHandle.getFile();
+  const card = document.createElement("div");
 
-    const card =
-    document.createElement(
-        "div"
-    );
+  card.className = "media-card";
 
-    card.className =
-    "media-card";
+  card.innerHTML = `
 
-    card.innerHTML = `
+    <div class="video-thumb">
 
-        <div class="video-thumb">
+        <i
+        class="fa-solid fa-circle-play"
+        ></i>
 
-            <i class="
-            fa-solid
-            fa-circle-play
-            "></i>
+    </div>
 
-        </div>
+`;
 
-        <div class="media-name">
-
-            ${getDisplayName(
-                file.name
-            )}
-
-        </div>
-
-    `;
-
-    return card;
-
+  return card;
 }
 
 // ==========================================
 // RENDER MEDIA
 // ==========================================
 
-async function renderMediaGrid(
-    folderHandle
-) {
+async function renderMediaGrid(folderHandle) {
+  const mediaGrid = document.getElementById("media-grid");
 
-    const mediaGrid =
-    document.getElementById(
-        "media-grid"
-    );
+  if (!mediaGrid) return;
 
-    if (!mediaGrid)
-        return;
+  mediaGrid.innerHTML = "";
 
-    mediaGrid.innerHTML = "";
+  for await (const item of folderHandle.values()) {
+    if (item.kind !== "file") continue;
 
-    for await (
-        const item
-        of folderHandle.values()
-    ) {
+    const lower = item.name.toLowerCase();
 
-        if (
-            item.kind !==
-            "file"
-        ) continue;
+    let card;
 
-        const lower =
-        item.name
-        .toLowerCase();
-
-        let card;
-
-        if (
-            lower.endsWith(
-                ".hid"
-            )
-        ) {
-
-            card =
-            await createVideoCard(
-                item
-            );
-
-        }
-
-        else {
-
-            card =
-            await createImageCard(
-                item
-            );
-
-        }
-
-        mediaGrid.appendChild(
-            card
-        );
-
+    if (lower.endsWith(".hid")) {
+      card = await createVideoCard(item);
+    } else {
+      card = await createImageCard(item);
     }
 
+    mediaGrid.appendChild(card);
+  }
 }
