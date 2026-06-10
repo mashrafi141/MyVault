@@ -7,15 +7,15 @@ async function renderMediaInto(container, media) {
     return;
   }
 
-  //container.innerHTML = "";
+  container.innerHTML = "";
 
   if (!media) {
     return;
   }
 
-  const file = await media.fileHandle.getFile();
+  const file = media.file;
 
-  const url = URL.createObjectURL(file);
+const url = media.url;
 
   if (media.type === "image") {
     container.innerHTML = `
