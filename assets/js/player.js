@@ -7,7 +7,7 @@ async function renderMediaInto(container, media) {
     return;
   }
 
-  container.innerHTML = "";
+  //container.innerHTML = "";
 
   if (!media) {
     return;
