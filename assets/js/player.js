@@ -1,4 +1,13 @@
 // ==========================================
+// VIEWER STATE
+// ==========================================
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+let isAnimating = false;
+
+// ==========================================
 // RENDER CURRENT MEDIA
 // ==========================================
 
@@ -8,6 +17,7 @@ async function renderCurrentMedia() {
   if (counter) {
     counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
   }
+
   const content = document.getElementById("viewer-content");
 
   if (!content || !mediaList.length) return;
@@ -63,36 +73,86 @@ async function openViewer() {
 }
 
 // ==========================================
-// NEXT
+// ANIMATION
+// ==========================================
+
+async function animateViewer(direction) {
+  if (isAnimating) return false;
+
+  isAnimating = true;
+
+  const content = document.getElementById("viewer-content");
+
+  if (direction === "next") {
+    content.classList.add("viewer-exit-left");
+  } else {
+    content.classList.add("viewer-exit-right");
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 160));
+
+  return true;
+}
+
+function finishAnimation(direction) {
+  const content = document.getElementById("viewer-content");
+
+  content.classList.remove("viewer-exit-left", "viewer-exit-right");
+
+  if (direction === "next") {
+    content.classList.add("viewer-enter-left");
+  } else {
+    content.classList.add("viewer-enter-right");
+  }
+
+  requestAnimationFrame(() => {
+    content.classList.remove("viewer-enter-left", "viewer-enter-right");
+  });
+
+  setTimeout(() => {
+    isAnimating = false;
+  }, 220);
+}
+
+// ==========================================
+// NEXT MEDIA
 // ==========================================
 
 async function nextMedia() {
   if (currentMediaIndex >= mediaList.length - 1) return;
 
+  const allowed = await animateViewer("next");
+
+  if (!allowed) return;
+
   currentMediaIndex++;
 
   await renderCurrentMedia();
+
+  finishAnimation("next");
 }
 
 // ==========================================
-// PREVIOUS
+// PREVIOUS MEDIA
 // ==========================================
 
 async function previousMedia() {
   if (currentMediaIndex <= 0) return;
 
+  const allowed = await animateViewer("prev");
+
+  if (!allowed) return;
+
   currentMediaIndex--;
 
   await renderCurrentMedia();
+
+  finishAnimation("prev");
 }
 
 // ==========================================
-// TOUCH SWIPE
+// SWIPE HANDLER
 // ==========================================
-
-let touchStartX = 0;
-
-let touchEndX = 0;
 
 window.addEventListener("load", () => {
   const viewer = document.getElementById("viewer-screen");
@@ -112,9 +172,13 @@ window.addEventListener("load", () => {
 
     const diff = touchEndX - touchStartX;
 
-    if (diff < -50) {
+    if (Math.abs(diff) < 50) {
+      return;
+    }
+
+    if (diff < 0) {
       await nextMedia();
-    } else if (diff > 50) {
+    } else {
       await previousMedia();
     }
   });
