@@ -22,6 +22,40 @@ function getDisplayName(fileName) {
   return fileName;
 }
 
+async function generateVideoThumbnail(file) {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+
+    video.preload = "metadata";
+
+    video.src = URL.createObjectURL(file);
+
+    video.muted = true;
+
+    video.addEventListener("loadedmetadata", () => {
+      video.currentTime = Math.min(1, video.duration / 2);
+    });
+
+    video.addEventListener("seeked", () => {
+      const canvas = document.createElement("canvas");
+
+      canvas.width = video.videoWidth;
+
+      canvas.height = video.videoHeight;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(video, 0, 0);
+
+      const thumb = canvas.toDataURL("image/jpeg");
+
+      URL.revokeObjectURL(video.src);
+
+      resolve(thumb);
+    });
+  });
+}
+
 // ==========================================
 // CREATE IMAGE CARD
 // ==========================================
@@ -53,13 +87,22 @@ async function createImageCard(fileHandle) {
 // ==========================================
 
 async function createVideoCard(fileHandle) {
+  const file = await fileHandle.getFile();
+
+  const thumb = await generateVideoThumbnail(file);
+
   const card = document.createElement("div");
 
   card.className = "media-card";
 
   card.innerHTML = `
 
-        <div class="video-thumb">
+        <img
+            class="media-image"
+            src="${thumb}"
+        >
+
+        <div class="play-overlay">
 
             <i
             class="fa-solid fa-play"
@@ -96,15 +139,15 @@ async function renderMediaGrid(folderHandle) {
 
     const file = await item.getFile();
 
-mediaList.push({
-  fileHandle: item,
+    mediaList.push({
+      fileHandle: item,
 
-  file: file,
+      file: file,
 
-  url: URL.createObjectURL(file),
+      url: URL.createObjectURL(file),
 
-  type: isVideo ? "video" : "image",
-});
+      type: isVideo ? "video" : "image",
+    });
 
     let card;
 
