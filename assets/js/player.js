@@ -3,6 +3,11 @@
 // ==========================================
 
 async function renderCurrentMedia() {
+  const counter = document.getElementById("viewer-counter");
+
+  if (counter) {
+    counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
+  }
   const content = document.getElementById("viewer-content");
 
   if (!content || !mediaList.length) return;
