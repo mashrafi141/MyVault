@@ -34,11 +34,11 @@ async function renderMediaInto(container, media) {
     container.innerHTML = `
 
             <video
-                class="viewer-video"
-                controls
-                autoplay
-                playsinline
-            >
+    class="viewer-video"
+    controls
+    playsinline
+    preload="metadata"
+>
 
                 <source
                     src="${videoUrl}"
@@ -94,11 +94,29 @@ async function renderSlides() {
 
   const nextSlide = document.getElementById("next-slide");
 
-  await renderMediaInto(prevSlide, mediaList[currentMediaIndex - 1]);
+  // PREVIOUS
+
+  const prevMedia = mediaList[currentMediaIndex - 1];
+
+  if (prevMedia?.type === "image") {
+    await renderMediaInto(prevSlide, prevMedia);
+  } else {
+    prevSlide.innerHTML = "";
+  }
+
+  // CURRENT
 
   await renderMediaInto(currentSlide, mediaList[currentMediaIndex]);
 
-  await renderMediaInto(nextSlide, mediaList[currentMediaIndex + 1]);
+  // NEXT
+
+  const nextMedia = mediaList[currentMediaIndex + 1];
+
+  if (nextMedia?.type === "image") {
+    await renderMediaInto(nextSlide, nextMedia);
+  } else {
+    nextSlide.innerHTML = "";
+  }
 }
 
 // ==========================================
