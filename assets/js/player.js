@@ -3,8 +3,13 @@
 // ==========================================
 
 async function renderMediaInto(container, media) {
-  if (!container || !media) {
-    container.innerHTML = "";
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "";
+
+  if (!media) {
     return;
   }
 
@@ -49,6 +54,22 @@ async function renderMediaInto(container, media) {
 // ==========================================
 // VIEWER STATE
 // ==========================================
+
+// ==========================================
+// STOP ALL VIDEOS
+// ==========================================
+
+function stopAllVideos() {
+  document.querySelectorAll("video").forEach((video) => {
+    video.pause();
+
+    video.currentTime = 0;
+
+    video.removeAttribute("src");
+
+    video.load();
+  });
+}
 
 let startX = 0;
 let currentX = 0;
@@ -97,11 +118,13 @@ async function openViewer() {
 // ==========================================
 // NEXT
 // ==========================================
-
+/*
 async function nextMedia() {
   if (currentMediaIndex >= mediaList.length - 1) {
     return;
   }
+
+  stopAllVideos();
 
   currentMediaIndex++;
 
@@ -117,10 +140,14 @@ async function previousMedia() {
     return;
   }
 
+  stopAllVideos();
+
   currentMediaIndex--;
 
   await renderSlides();
 }
+
+*/
 
 // ==========================================
 // EVENTS
@@ -134,6 +161,8 @@ window.addEventListener("load", () => {
   const closeBtn = document.getElementById("close-viewer");
 
   closeBtn?.addEventListener("click", () => {
+    stopAllVideos();
+
     showScreen("media-screen");
   });
 
@@ -184,6 +213,8 @@ window.addEventListener("load", () => {
       track.style.transform = "translate3d(-66.666%,0,0)";
 
       setTimeout(async () => {
+        stopAllVideos();
+
         track.style.transition = "none";
 
         currentMediaIndex++;
@@ -201,6 +232,8 @@ window.addEventListener("load", () => {
       track.style.transform = "translate3d(0%,0,0)";
 
       setTimeout(async () => {
+        stopAllVideos();
+
         track.style.transition = "none";
 
         currentMediaIndex--;
