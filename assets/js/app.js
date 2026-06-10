@@ -43,3 +43,47 @@ window.addEventListener("load", async () => {
     }
   }, 100);
 });
+
+
+// ==========================================
+// SETTINGS
+// ==========================================
+
+window.addEventListener(
+    "load",
+    ()=>{
+
+        const settingsBtn =
+        document.getElementById(
+            "settings-btn"
+        );
+
+        const backSettings =
+        document.getElementById(
+            "back-settings"
+        );
+
+        settingsBtn?.addEventListener(
+            "click",
+            ()=>{
+
+                showScreen(
+                    "settings-screen"
+                );
+
+            }
+        );
+
+        backSettings?.addEventListener(
+            "click",
+            ()=>{
+
+                showScreen(
+                    "dashboard-screen"
+                );
+
+            }
+        );
+
+    }
+);
