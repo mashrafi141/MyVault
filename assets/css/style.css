@@ -1406,3 +1406,24 @@ main {
     margin-right:12px;
 
 }
+
+.about-box{
+
+    margin:20px;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.05);
+
+    text-align:center;
+
+}
+
+.about-box h3{
+
+    margin-bottom:6px;
+
+}
