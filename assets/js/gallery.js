@@ -2,6 +2,8 @@
 // VIEWER DATA
 // ==========================================
 
+const thumbnailCache = new Map();
+
 let mediaList = [];
 
 let currentMediaIndex = 0;
@@ -56,6 +58,22 @@ async function generateVideoThumbnail(file) {
   });
 }
 
+async function loadVideoThumbnail(imgElement, file) {
+  const cacheKey = `${file.name}_${file.size}`;
+
+  if (thumbnailCache.has(cacheKey)) {
+    imgElement.src = thumbnailCache.get(cacheKey);
+
+    return;
+  }
+
+  const thumb = await generateVideoThumbnail(file);
+
+  thumbnailCache.set(cacheKey, thumb);
+
+  imgElement.src = thumb;
+}
+
 // ==========================================
 // CREATE IMAGE CARD
 // ==========================================
@@ -89,8 +107,6 @@ async function createImageCard(fileHandle) {
 async function createVideoCard(fileHandle) {
   const file = await fileHandle.getFile();
 
-  const thumb = await generateVideoThumbnail(file);
-
   const card = document.createElement("div");
 
   card.className = "media-card";
@@ -99,7 +115,7 @@ async function createVideoCard(fileHandle) {
 
         <img
             class="media-image"
-            src="${thumb}"
+            src="assets/img/video-placeholder.png"
         >
 
         <div class="play-overlay">
@@ -111,6 +127,10 @@ async function createVideoCard(fileHandle) {
         </div>
 
     `;
+
+  const img = card.querySelector(".media-image");
+
+  loadVideoThumbnail(img, file);
 
   return card;
 }
