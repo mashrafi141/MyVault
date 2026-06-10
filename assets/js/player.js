@@ -89,7 +89,7 @@ async function openViewer() {
 
   track.style.transition = "none";
 
-  track.style.transform = "translateX(-100vw)";
+  track.style.transform = "translate3d(-33.333%,0,0)";
 
   showScreen("viewer-screen");
 }
@@ -162,7 +162,7 @@ window.addEventListener("load", () => {
 
     const diff = currentX - startX;
 
-    track.style.transform = `translateX(calc(-100vw + ${diff}px))`;
+    track.style.transform = `translate3d(calc(-33.333% + ${diff}px),0,0)`;
   });
 
   // ==========================
@@ -181,7 +181,7 @@ window.addEventListener("load", () => {
     // NEXT
 
     if (diff < -80 && currentMediaIndex < mediaList.length - 1) {
-      track.style.transform = "translateX(-200vw)";
+      track.style.transform = "translate3d(-66.666%,0,0)";
 
       setTimeout(async () => {
         currentMediaIndex++;
@@ -190,13 +190,13 @@ window.addEventListener("load", () => {
 
         track.style.transition = "none";
 
-        track.style.transform = "translateX(-100vw)";
+        track.style.transform = "translate3d(-33.333%,0,0)";
       }, 250);
     }
 
     // PREVIOUS
     else if (diff > 80 && currentMediaIndex > 0) {
-      track.style.transform = "translateX(0vw)";
+      track.style.transform = "translate3d(0%,0,0)";
 
       setTimeout(async () => {
         currentMediaIndex--;
@@ -205,13 +205,13 @@ window.addEventListener("load", () => {
 
         track.style.transition = "none";
 
-        track.style.transform = "translateX(-100vw)";
+        track.style.transform = "translate3d(-33.333%,0,0)";
       }, 250);
     }
 
     // SNAP BACK
     else {
-      track.style.transform = "translateX(-100vw)";
+      track.style.transform = "translate3d(-33.333%,0,0)";
     }
   });
 });
