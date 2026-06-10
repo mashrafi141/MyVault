@@ -173,11 +173,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchstart", (e) => {
-    const media = mediaList[currentMediaIndex];
-
-    if (media?.type === "video") {
-      return;
-    }
 
     startX = e.touches[0].clientX;
 
@@ -193,11 +188,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchmove", (e) => {
-    const media = mediaList[currentMediaIndex];
-
-    if (media?.type === "video") {
-      return;
-    }
 
     if (!isDragging) return;
 
@@ -213,11 +203,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchend", async () => {
-    const media = mediaList[currentMediaIndex];
-
-    if (media?.type === "video") {
-      return;
-    }
 
     if (!isDragging) return;
 
