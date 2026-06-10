@@ -94,11 +94,17 @@ async function renderMediaGrid(folderHandle) {
 
     const isVideo = lower.endsWith(".hid");
 
-    mediaList.push({
-      fileHandle: item,
+    const file = await item.getFile();
 
-      type: isVideo ? "video" : "image",
-    });
+mediaList.push({
+  fileHandle: item,
+
+  file: file,
+
+  url: URL.createObjectURL(file),
+
+  type: isVideo ? "video" : "image",
+});
 
     let card;
 
