@@ -2,8 +2,6 @@
 // APP START
 // ==========================================
 
-alert("APP JS LOADED");
-
 window.addEventListener("load", async () => {
   setTimeout(async () => {
     // ==========================
