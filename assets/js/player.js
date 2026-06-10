@@ -173,6 +173,12 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchstart", (e) => {
+    const media = mediaList[currentMediaIndex];
+
+    if (media?.type === "video") {
+      return;
+    }
+
     startX = e.touches[0].clientX;
 
     currentX = startX;
@@ -187,6 +193,12 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchmove", (e) => {
+    const media = mediaList[currentMediaIndex];
+
+    if (media?.type === "video") {
+      return;
+    }
+
     if (!isDragging) return;
 
     currentX = e.touches[0].clientX;
@@ -201,6 +213,12 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchend", async () => {
+    const media = mediaList[currentMediaIndex];
+
+    if (media?.type === "video") {
+      return;
+    }
+
     if (!isDragging) return;
 
     isDragging = false;
@@ -230,7 +248,7 @@ window.addEventListener("load", () => {
     }
 
     // PREVIOUS
-    if (diff > 80 && currentMediaIndex > 0) {
+    else if (diff > 80 && currentMediaIndex > 0) {
       stopAllVideos();
 
       track.style.transform = "translate3d(0%,0,0)";
