@@ -1202,15 +1202,13 @@ main {
 
     display: flex;
 
-    transform: translate3d(-33.333%,0,0);
+    transform: translate3d(-33.333%, 0, 0);
 
     transition:
-    transform .25s cubic-bezier(
-        .22,
-        1,
-        .36,
-        1
-    );
+        transform .25s cubic-bezier(.22,
+            1,
+            .36,
+            1);
 
     will-change: transform;
 
@@ -1256,27 +1254,107 @@ main {
 
 }
 
-.play-overlay{
+.play-overlay {
 
-    position:absolute;
+    position: absolute;
 
-    inset:0;
+    inset: 0;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    justify-content:center;
+    justify-content: center;
 
     background:
-    rgba(0,0,0,.15);
+        rgba(0, 0, 0, .15);
 
 }
 
-.play-overlay i{
+.play-overlay i {
 
-    color:#fff;
+    color: #fff;
 
-    font-size:1.5rem;
+    font-size: 1.5rem;
+
+}
+
+
+/* ==========================
+   FOLDER OPENING
+========================== */
+
+.folder-opening {
+
+    transform: scale(.95);
+
+    opacity: .8;
+
+    transition: .25s;
+
+}
+
+#folder-loading {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(5, 8, 22, .85);
+
+    backdrop-filter:
+        blur(18px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: .25s;
+
+}
+
+#folder-loading.show {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+.loading-ring {
+
+    width: 70px;
+
+    height: 70px;
+
+    border-radius: 50%;
+
+    border: 3px solid rgba(255, 255, 255, .08);
+
+    border-top-color:
+        #60a5fa;
+
+    animation:
+        spin .8s linear infinite;
+
+}
+
+@keyframes spin {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
 
 }
