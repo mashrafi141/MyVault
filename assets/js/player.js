@@ -184,13 +184,15 @@ window.addEventListener("load", () => {
       track.style.transform = "translate3d(-66.666%,0,0)";
 
       setTimeout(async () => {
+        track.style.transition = "none";
+
         currentMediaIndex++;
 
         await renderSlides();
 
-        track.style.transition = "none";
-
-        track.style.transform = "translate3d(-33.333%,0,0)";
+        requestAnimationFrame(() => {
+          track.style.transform = "translate3d(-33.333%,0,0)";
+        });
       }, 250);
     }
 
@@ -199,13 +201,15 @@ window.addEventListener("load", () => {
       track.style.transform = "translate3d(0%,0,0)";
 
       setTimeout(async () => {
+        track.style.transition = "none";
+
         currentMediaIndex--;
 
         await renderSlides();
 
-        track.style.transition = "none";
-
-        track.style.transform = "translate3d(-33.333%,0,0)";
+        requestAnimationFrame(() => {
+          track.style.transform = "translate3d(-33.333%,0,0)";
+        });
       }, 250);
     }
 
