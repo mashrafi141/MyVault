@@ -2,10 +2,9 @@
 // VIEWER STATE
 // ==========================================
 
-let touchStartX = 0;
-let touchEndX = 0;
-
-let isAnimating = false;
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
 
 // ==========================================
 // RENDER CURRENT MEDIA
@@ -27,6 +26,8 @@ async function renderCurrentMedia() {
   const file = await media.fileHandle.getFile();
 
   const url = URL.createObjectURL(file);
+
+  content.style.transform = "translateX(0px)";
 
   if (media.type === "image") {
     content.innerHTML = `
@@ -73,89 +74,37 @@ async function openViewer() {
 }
 
 // ==========================================
-// ANIMATION
-// ==========================================
-
-async function animateViewer(direction) {
-  if (isAnimating) return false;
-
-  isAnimating = true;
-
-  const content = document.getElementById("viewer-content");
-
-  if (direction === "next") {
-    content.classList.add("viewer-exit-left");
-  } else {
-    content.classList.add("viewer-exit-right");
-  }
-
-  await new Promise((resolve) => setTimeout(resolve, 160));
-
-  return true;
-}
-
-function finishAnimation(direction) {
-  const content = document.getElementById("viewer-content");
-
-  content.classList.remove("viewer-exit-left", "viewer-exit-right");
-
-  if (direction === "next") {
-    content.classList.add("viewer-enter-left");
-  } else {
-    content.classList.add("viewer-enter-right");
-  }
-
-  requestAnimationFrame(() => {
-    content.classList.remove("viewer-enter-left", "viewer-enter-right");
-  });
-
-  setTimeout(() => {
-    isAnimating = false;
-  }, 220);
-}
-
-// ==========================================
-// NEXT MEDIA
+// NEXT
 // ==========================================
 
 async function nextMedia() {
   if (currentMediaIndex >= mediaList.length - 1) return;
 
-  const allowed = await animateViewer("next");
-
-  if (!allowed) return;
-
   currentMediaIndex++;
 
   await renderCurrentMedia();
-
-  finishAnimation("next");
 }
 
 // ==========================================
-// PREVIOUS MEDIA
+// PREVIOUS
 // ==========================================
 
 async function previousMedia() {
   if (currentMediaIndex <= 0) return;
 
-  const allowed = await animateViewer("prev");
-
-  if (!allowed) return;
-
   currentMediaIndex--;
 
   await renderCurrentMedia();
-
-  finishAnimation("prev");
 }
 
 // ==========================================
-// SWIPE HANDLER
+// EVENTS
 // ==========================================
 
 window.addEventListener("load", () => {
   const viewer = document.getElementById("viewer-screen");
+
+  const content = document.getElementById("viewer-content");
 
   const closeBtn = document.getElementById("close-viewer");
 
@@ -164,22 +113,56 @@ window.addEventListener("load", () => {
   });
 
   viewer?.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX;
+    startX = e.touches[0].clientX;
+
+    currentX = startX;
+
+    isDragging = true;
+
+    content.style.transition = "none";
   });
 
-  viewer?.addEventListener("touchend", async (e) => {
-    touchEndX = e.changedTouches[0].screenX;
+  viewer?.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
 
-    const diff = touchEndX - touchStartX;
+    currentX = e.touches[0].clientX;
 
-    if (Math.abs(diff) < 50) {
-      return;
+    const diff = currentX - startX;
+
+    content.style.transform = `translateX(${diff}px)`;
+  });
+
+  viewer?.addEventListener("touchend", async () => {
+    if (!isDragging) return;
+
+    isDragging = false;
+
+    const diff = currentX - startX;
+
+    content.style.transition = "transform .25s cubic-bezier(.22,1,.36,1)";
+
+    // NEXT
+
+    if (diff < -80) {
+      content.style.transform = "translateX(-100vw)";
+
+      setTimeout(async () => {
+        await nextMedia();
+      }, 180);
     }
 
-    if (diff < 0) {
-      await nextMedia();
-    } else {
-      await previousMedia();
+    // PREVIOUS
+    else if (diff > 80) {
+      content.style.transform = "translateX(100vw)";
+
+      setTimeout(async () => {
+        await previousMedia();
+      }, 180);
+    }
+
+    // SNAP BACK
+    else {
+      content.style.transform = "translateX(0px)";
     }
   });
 });
