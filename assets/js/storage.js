@@ -3,52 +3,25 @@
 // ==========================================
 
 function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("VaultDB", 1);
 
-    return new Promise((resolve, reject) => {
+    request.onupgradeneeded = () => {
+      const db = request.result;
 
-        const request =
-        indexedDB.open(
-            "VaultDB",
-            1
-        );
+      if (!db.objectStoreNames.contains("handles")) {
+        db.createObjectStore("handles");
+      }
+    };
 
-        request.onupgradeneeded = () => {
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
 
-            const db =
-            request.result;
-
-            if (
-                !db.objectStoreNames.contains(
-                    "handles"
-                )
-            ) {
-
-                db.createObjectStore(
-                    "handles"
-                );
-
-            }
-
-        };
-
-        request.onsuccess = () => {
-
-            resolve(
-                request.result
-            );
-
-        };
-
-        request.onerror = () => {
-
-            reject(
-                request.error
-            );
-
-        };
-
-    });
-
+    request.onerror = () => {
+      reject(request.error);
+    };
+  });
 }
 
 // ==========================================
@@ -61,42 +34,20 @@ let vaultFolderHandle = null;
 // SAVE HANDLE
 // ==========================================
 
-async function saveFolderHandle(
-    handle
-) {
+async function saveFolderHandle(handle) {
+  const db = await openDB();
 
-    const db =
-    await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("handles", "readwrite");
 
-    return new Promise(
-        (resolve, reject) => {
+    const store = tx.objectStore("handles");
 
-            const tx =
-            db.transaction(
-                "handles",
-                "readwrite"
-            );
+    const request = store.put(handle, "vault-folder");
 
-            const store =
-            tx.objectStore(
-                "handles"
-            );
+    request.onsuccess = () => resolve();
 
-            const request =
-            store.put(
-                handle,
-                "vault-folder"
-            );
-
-            request.onsuccess =
-            () => resolve();
-
-            request.onerror =
-            () => reject();
-
-        }
-    );
-
+    request.onerror = () => reject();
+  });
 }
 
 // ==========================================
@@ -104,44 +55,21 @@ async function saveFolderHandle(
 // ==========================================
 
 async function loadFolderHandle() {
+  const db = await openDB();
 
-    const db =
-    await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("handles", "readonly");
 
-    return new Promise(
-        (resolve, reject) => {
+    const store = tx.objectStore("handles");
 
-            const tx =
-            db.transaction(
-                "handles",
-                "readonly"
-            );
+    const request = store.get("vault-folder");
 
-            const store =
-            tx.objectStore(
-                "handles"
-            );
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
 
-            const request =
-            store.get(
-                "vault-folder"
-            );
-
-            request.onsuccess =
-            () => {
-
-                resolve(
-                    request.result
-                );
-
-            };
-
-            request.onerror =
-            () => reject();
-
-        }
-    );
-
+    request.onerror = () => reject();
+  });
 }
 
 // ==========================================
@@ -149,43 +77,23 @@ async function loadFolderHandle() {
 // ==========================================
 
 async function selectVaultFolder() {
+  try {
+    const handle = await window.showDirectoryPicker();
 
-    try {
+    vaultFolderHandle = handle;
 
-        const handle =
-        await window.showDirectoryPicker();
+    await saveFolderHandle(handle);
 
-        vaultFolderHandle =
-        handle;
+    alert("Vault folder connected");
 
-        await saveFolderHandle(
-            handle
-        );
+    // AUTO SCAN
 
-        alert(
-            "Vault folder connected"
-        );
-
-        // AUTO SCAN
-
-        if (
-            typeof scanVault ===
-            "function"
-        ) {
-
-            await scanVault();
-
-        }
-
+    if (typeof scanVault === "function") {
+      await scanVault();
     }
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // ==========================================
@@ -193,63 +101,55 @@ async function selectVaultFolder() {
 // ==========================================
 
 async function restoreFolderAccess() {
+  try {
+    alert("1 = restore start");
 
-    try {
+    const handle = await loadFolderHandle();
 
-        const handle =
-        await loadFolderHandle();
+    alert("2 = handle loaded");
 
-        if (!handle) {
+    if (!handle) {
+      alert("3 = handle null");
 
-            return false;
-
-        }
-
-        const permission =
-        await handle.queryPermission({
-            mode: "read"
-        });
-
-        if (
-            permission ===
-            "granted"
-        ) {
-
-            vaultFolderHandle =
-            handle;
-
-            return true;
-
-        }
-
-        const newPermission =
-        await handle.requestPermission({
-            mode: "read"
-        });
-
-        if (
-            newPermission ===
-            "granted"
-        ) {
-
-            vaultFolderHandle =
-            handle;
-
-            return true;
-
-        }
-
-        return false;
-
-    }
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-        return false;
-
+      return false;
     }
 
+    const permission = await handle.queryPermission({
+      mode: "read",
+    });
+
+    alert("4 = queryPermission = " + permission);
+
+    if (permission === "granted") {
+      alert("5 = already granted");
+
+      vaultFolderHandle = handle;
+
+      return true;
+    }
+
+    const newPermission = await handle.requestPermission({
+      mode: "read",
+    });
+
+    alert("6 = requestPermission = " + newPermission);
+
+    if (newPermission === "granted") {
+      alert("7 = permission granted");
+
+      vaultFolderHandle = handle;
+
+      return true;
+    }
+
+    alert("8 = permission denied");
+
+    return false;
+  } catch (error) {
+    alert("ERROR = " + error.message);
+
+    console.error(error);
+
+    return false;
+  }
 }
