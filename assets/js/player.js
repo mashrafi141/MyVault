@@ -2,33 +2,18 @@
 // RENDER SINGLE MEDIA
 // ==========================================
 
-async function renderMediaInto(
-    container,
-    media
-){
+async function renderMediaInto(container, media) {
+  if (!container || !media) {
+    container.innerHTML = "";
+    return;
+  }
 
-    if(
-        !container ||
-        !media
-    ){
-        container.innerHTML = "";
-        return;
-    }
+  const file = await media.fileHandle.getFile();
 
-    const file =
-    await media.fileHandle.getFile();
+  const url = URL.createObjectURL(file);
 
-    const url =
-    URL.createObjectURL(
-        file
-    );
-
-    if(
-        media.type ===
-        "image"
-    ){
-
-        container.innerHTML = `
+  if (media.type === "image") {
+    container.innerHTML = `
 
             <img
                 class="viewer-image"
@@ -36,24 +21,12 @@ async function renderMediaInto(
             >
 
         `;
+  } else {
+    const blob = file.slice(0, file.size, "video/mp4");
 
-    }
+    const videoUrl = URL.createObjectURL(blob);
 
-    else{
-
-        const blob =
-        file.slice(
-            0,
-            file.size,
-            "video/mp4"
-        );
-
-        const videoUrl =
-        URL.createObjectURL(
-            blob
-        );
-
-        container.innerHTML = `
+    container.innerHTML = `
 
             <video
                 class="viewer-video"
@@ -70,11 +43,8 @@ async function renderMediaInto(
             </video>
 
         `;
-
-    }
-
+  }
 }
-
 
 // ==========================================
 // VIEWER STATE
@@ -88,56 +58,24 @@ let isDragging = false;
 // RENDER SLIDES
 // ==========================================
 
-async function renderSlides(){
+async function renderSlides() {
+  const counter = document.getElementById("viewer-counter");
 
-    const counter =
-    document.getElementById(
-        "viewer-counter"
-    );
+  if (counter) {
+    counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
+  }
 
-    if(counter){
+  const prevSlide = document.getElementById("prev-slide");
 
-        counter.textContent =
-        `${currentMediaIndex + 1} / ${mediaList.length}`;
+  const currentSlide = document.getElementById("current-slide");
 
-    }
+  const nextSlide = document.getElementById("next-slide");
 
-    const prevSlide =
-    document.getElementById(
-        "prev-slide"
-    );
+  await renderMediaInto(prevSlide, mediaList[currentMediaIndex - 1]);
 
-    const currentSlide =
-    document.getElementById(
-        "current-slide"
-    );
+  await renderMediaInto(currentSlide, mediaList[currentMediaIndex]);
 
-    const nextSlide =
-    document.getElementById(
-        "next-slide"
-    );
-
-    await renderMediaInto(
-        prevSlide,
-        mediaList[
-            currentMediaIndex - 1
-        ]
-    );
-
-    await renderMediaInto(
-        currentSlide,
-        mediaList[
-            currentMediaIndex
-        ]
-    );
-
-    await renderMediaInto(
-        nextSlide,
-        mediaList[
-            currentMediaIndex + 1
-        ]
-    );
-
+  await renderMediaInto(nextSlide, mediaList[currentMediaIndex + 1]);
 }
 
 // ==========================================
@@ -145,24 +83,15 @@ async function renderSlides(){
 // ==========================================
 
 async function openViewer() {
+  await renderSlides();
 
-    await renderSlides();
+  const track = document.getElementById("viewer-track");
 
-    const track =
-    document.getElementById(
-        "viewer-track"
-    );
+  track.style.transition = "none";
 
-    track.style.transition =
-    "none";
+  track.style.transform = "translateX(-100vw)";
 
-    track.style.transform =
-    "translateX(-100vw)";
-
-    showScreen(
-        "viewer-screen"
-    );
-
+  showScreen("viewer-screen");
 }
 
 // ==========================================
@@ -170,11 +99,13 @@ async function openViewer() {
 // ==========================================
 
 async function nextMedia() {
-  if (currentMediaIndex >= mediaList.length - 1) return;
+  if (currentMediaIndex >= mediaList.length - 1) {
+    return;
+  }
 
   currentMediaIndex++;
 
-  await renderCurrentMedia();
+  await renderSlides();
 }
 
 // ==========================================
@@ -182,11 +113,13 @@ async function nextMedia() {
 // ==========================================
 
 async function previousMedia() {
-  if (currentMediaIndex <= 0) return;
+  if (currentMediaIndex <= 0) {
+    return;
+  }
 
   currentMediaIndex--;
 
-  await renderCurrentMedia();
+  await renderSlides();
 }
 
 // ==========================================
@@ -196,13 +129,17 @@ async function previousMedia() {
 window.addEventListener("load", () => {
   const viewer = document.getElementById("viewer-screen");
 
-  const content = document.getElementById("viewer-content");
+  const track = document.getElementById("viewer-track");
 
   const closeBtn = document.getElementById("close-viewer");
 
   closeBtn?.addEventListener("click", () => {
     showScreen("media-screen");
   });
+
+  // ==========================
+  // TOUCH START
+  // ==========================
 
   viewer?.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
@@ -211,8 +148,12 @@ window.addEventListener("load", () => {
 
     isDragging = true;
 
-    content.style.transition = "none";
+    track.style.transition = "none";
   });
+
+  // ==========================
+  // TOUCH MOVE
+  // ==========================
 
   viewer?.addEventListener("touchmove", (e) => {
     if (!isDragging) return;
@@ -221,8 +162,12 @@ window.addEventListener("load", () => {
 
     const diff = currentX - startX;
 
-    content.style.transform = `translateX(${diff}px)`;
+    track.style.transform = `translateX(calc(-100vw + ${diff}px))`;
   });
+
+  // ==========================
+  // TOUCH END
+  // ==========================
 
   viewer?.addEventListener("touchend", async () => {
     if (!isDragging) return;
@@ -231,30 +176,42 @@ window.addEventListener("load", () => {
 
     const diff = currentX - startX;
 
-    content.style.transition = "transform .25s cubic-bezier(.22,1,.36,1)";
+    track.style.transition = "transform .25s cubic-bezier(.22,1,.36,1)";
 
     // NEXT
 
-    if (diff < -80) {
-      content.style.transform = "translateX(-100vw)";
+    if (diff < -80 && currentMediaIndex < mediaList.length - 1) {
+      track.style.transform = "translateX(-200vw)";
 
       setTimeout(async () => {
-        await nextMedia();
-      }, 180);
+        currentMediaIndex++;
+
+        await renderSlides();
+
+        track.style.transition = "none";
+
+        track.style.transform = "translateX(-100vw)";
+      }, 250);
     }
 
     // PREVIOUS
-    else if (diff > 80) {
-      content.style.transform = "translateX(100vw)";
+    else if (diff > 80 && currentMediaIndex > 0) {
+      track.style.transform = "translateX(0vw)";
 
       setTimeout(async () => {
-        await previousMedia();
-      }, 180);
+        currentMediaIndex--;
+
+        await renderSlides();
+
+        track.style.transition = "none";
+
+        track.style.transform = "translateX(-100vw)";
+      }, 250);
     }
 
     // SNAP BACK
     else {
-      content.style.transform = "translateX(0px)";
+      track.style.transform = "translateX(-100vw)";
     }
   });
 });
