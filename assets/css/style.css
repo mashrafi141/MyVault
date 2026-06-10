@@ -1143,34 +1143,83 @@ main {
    VIEWER COUNTER
 ========================== */
 
-#viewer-counter{
+#viewer-counter {
 
-    position:fixed;
+    position: fixed;
 
-    top:20px;
+    top: 20px;
 
-    left:50%;
+    left: 50%;
 
     transform:
-    translateX(-50%);
+        translateX(-50%);
 
     padding:
-    8px 14px;
+        8px 14px;
 
-    border-radius:999px;
+    border-radius: 999px;
 
     background:
-    rgba(255,255,255,.12);
+        rgba(255, 255, 255, .12);
 
     backdrop-filter:
-    blur(20px);
+        blur(20px);
 
-    color:#fff;
+    color: #fff;
 
-    font-size:.85rem;
+    font-size: .85rem;
 
-    font-weight:600;
+    font-weight: 600;
 
-    z-index:1001;
+    z-index: 1001;
+
+}
+
+
+/* ==========================
+   PREMIUM VIEWER ANIMATION
+========================== */
+
+.viewer-content-animate {
+
+    transition:
+        transform .22s cubic-bezier(.22, 1, .36, 1),
+        opacity .22s ease;
+
+}
+
+.viewer-exit-left {
+
+    transform:
+        translateX(-70px) scale(.96);
+
+    opacity: 0;
+
+}
+
+.viewer-exit-right {
+
+    transform:
+        translateX(70px) scale(.96);
+
+    opacity: 0;
+
+}
+
+.viewer-enter-left {
+
+    transform:
+        translateX(70px) scale(.96);
+
+    opacity: 0;
+
+}
+
+.viewer-enter-right {
+
+    transform:
+        translateX(-70px) scale(.96);
+
+    opacity: 0;
 
 }
