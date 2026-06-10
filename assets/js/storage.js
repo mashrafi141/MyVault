@@ -95,22 +95,15 @@ async function selectVaultFolder() {
     console.error(error);
   }
 }
-
 // ==========================================
 // RESTORE ACCESS
 // ==========================================
 
 async function restoreFolderAccess() {
   try {
-    alert("1 = restore start");
-
     const handle = await loadFolderHandle();
 
-    alert("2 = handle loaded");
-
     if (!handle) {
-      alert("3 = handle null");
-
       return false;
     }
 
@@ -118,11 +111,7 @@ async function restoreFolderAccess() {
       mode: "read",
     });
 
-    alert("4 = queryPermission = " + permission);
-
     if (permission === "granted") {
-      alert("5 = already granted");
-
       vaultFolderHandle = handle;
 
       return true;
@@ -132,22 +121,14 @@ async function restoreFolderAccess() {
       mode: "read",
     });
 
-    alert("6 = requestPermission = " + newPermission);
-
     if (newPermission === "granted") {
-      alert("7 = permission granted");
-
       vaultFolderHandle = handle;
 
       return true;
     }
 
-    alert("8 = permission denied");
-
     return false;
   } catch (error) {
-    alert("ERROR = " + error.message);
-
     console.error(error);
 
     return false;
