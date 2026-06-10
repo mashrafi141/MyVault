@@ -1358,3 +1358,51 @@ main {
     }
 
 }
+
+
+/* ==========================
+   SETTINGS
+========================== */
+
+.settings-list{
+
+    padding:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.settings-item{
+
+    width:100%;
+
+    border:none;
+
+    color:#fff;
+
+    background:
+    rgba(255,255,255,.05);
+
+    padding:18px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    font-size:.95rem;
+
+}
+
+.settings-item i{
+
+    margin-right:12px;
+
+}
