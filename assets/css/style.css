@@ -1080,6 +1080,8 @@ main {
 
     align-items: center;
 
+    overflow: hidden;
+
 }
 
 .viewer-close {
@@ -1107,6 +1109,10 @@ main {
 
 }
 
+/* ==========================
+   VIEWER DRAG SWIPE
+========================== */
+
 #viewer-content {
 
     width: 100%;
@@ -1115,9 +1121,17 @@ main {
 
     display: flex;
 
+    align-items: center;
+
     justify-content: center;
 
-    align-items: center;
+    will-change: transform;
+
+    transition:
+        transform .25s cubic-bezier(.22,
+            1,
+            .36,
+            1);
 
 }
 
@@ -1129,13 +1143,22 @@ main {
 
     object-fit: contain;
 
+    user-select: none;
+
+    -webkit-user-drag: none;
+
+    pointer-events: none;
+
 }
+
 
 .viewer-video {
 
     width: 100%;
 
     max-height: 100%;
+
+    object-fit: contain;
 
 }
 
@@ -1172,54 +1195,5 @@ main {
     font-weight: 600;
 
     z-index: 1001;
-
-}
-
-
-/* ==========================
-   PREMIUM VIEWER ANIMATION
-========================== */
-
-.viewer-content-animate {
-
-    transition:
-        transform .22s cubic-bezier(.22, 1, .36, 1),
-        opacity .22s ease;
-
-}
-
-.viewer-exit-left {
-
-    transform:
-        translateX(-70px) scale(.96);
-
-    opacity: 0;
-
-}
-
-.viewer-exit-right {
-
-    transform:
-        translateX(70px) scale(.96);
-
-    opacity: 0;
-
-}
-
-.viewer-enter-left {
-
-    transform:
-        translateX(70px) scale(.96);
-
-    opacity: 0;
-
-}
-
-.viewer-enter-right {
-
-    transform:
-        translateX(-70px) scale(.96);
-
-    opacity: 0;
 
 }
