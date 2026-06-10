@@ -1,36 +1,34 @@
 // ==========================================
-// VIEWER STATE
+// RENDER SINGLE MEDIA
 // ==========================================
 
-let startX = 0;
-let currentX = 0;
-let isDragging = false;
+async function renderMediaInto(
+    container,
+    media
+){
 
-// ==========================================
-// RENDER CURRENT MEDIA
-// ==========================================
+    if(
+        !container ||
+        !media
+    ){
+        container.innerHTML = "";
+        return;
+    }
 
-async function renderCurrentMedia() {
-  const counter = document.getElementById("viewer-counter");
+    const file =
+    await media.fileHandle.getFile();
 
-  if (counter) {
-    counter.textContent = `${currentMediaIndex + 1} / ${mediaList.length}`;
-  }
+    const url =
+    URL.createObjectURL(
+        file
+    );
 
-  const content = document.getElementById("viewer-content");
+    if(
+        media.type ===
+        "image"
+    ){
 
-  if (!content || !mediaList.length) return;
-
-  const media = mediaList[currentMediaIndex];
-
-  const file = await media.fileHandle.getFile();
-
-  const url = URL.createObjectURL(file);
-
-  content.style.transform = "translateX(0px)";
-
-  if (media.type === "image") {
-    content.innerHTML = `
+        container.innerHTML = `
 
             <img
                 class="viewer-image"
@@ -38,12 +36,24 @@ async function renderCurrentMedia() {
             >
 
         `;
-  } else {
-    const blob = file.slice(0, file.size, "video/mp4");
 
-    const videoUrl = URL.createObjectURL(blob);
+    }
 
-    content.innerHTML = `
+    else{
+
+        const blob =
+        file.slice(
+            0,
+            file.size,
+            "video/mp4"
+        );
+
+        const videoUrl =
+        URL.createObjectURL(
+            blob
+        );
+
+        container.innerHTML = `
 
             <video
                 class="viewer-video"
@@ -60,7 +70,74 @@ async function renderCurrentMedia() {
             </video>
 
         `;
-  }
+
+    }
+
+}
+
+
+// ==========================================
+// VIEWER STATE
+// ==========================================
+
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
+
+// ==========================================
+// RENDER SLIDES
+// ==========================================
+
+async function renderSlides(){
+
+    const counter =
+    document.getElementById(
+        "viewer-counter"
+    );
+
+    if(counter){
+
+        counter.textContent =
+        `${currentMediaIndex + 1} / ${mediaList.length}`;
+
+    }
+
+    const prevSlide =
+    document.getElementById(
+        "prev-slide"
+    );
+
+    const currentSlide =
+    document.getElementById(
+        "current-slide"
+    );
+
+    const nextSlide =
+    document.getElementById(
+        "next-slide"
+    );
+
+    await renderMediaInto(
+        prevSlide,
+        mediaList[
+            currentMediaIndex - 1
+        ]
+    );
+
+    await renderMediaInto(
+        currentSlide,
+        mediaList[
+            currentMediaIndex
+        ]
+    );
+
+    await renderMediaInto(
+        nextSlide,
+        mediaList[
+            currentMediaIndex + 1
+        ]
+    );
+
 }
 
 // ==========================================
@@ -68,9 +145,24 @@ async function renderCurrentMedia() {
 // ==========================================
 
 async function openViewer() {
-  await renderCurrentMedia();
 
-  showScreen("viewer-screen");
+    await renderSlides();
+
+    const track =
+    document.getElementById(
+        "viewer-track"
+    );
+
+    track.style.transition =
+    "none";
+
+    track.style.transform =
+    "translateX(-100vw)";
+
+    showScreen(
+        "viewer-screen"
+    );
+
 }
 
 // ==========================================
