@@ -241,8 +241,16 @@ function renderVaultFolders(folders) {
 
         `;
 
-    card.addEventListener("click", () => {
-      openFolder(folder.name);
+    card.addEventListener("click", async () => {
+      card.classList.add("folder-opening");
+
+      document.getElementById("folder-loading")?.classList.add("show");
+
+      await new Promise((resolve) => setTimeout(resolve, 250));
+
+      await openFolder(folder.name);
+
+      document.getElementById("folder-loading")?.classList.remove("show");
     });
 
     grid.appendChild(card);
