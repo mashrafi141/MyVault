@@ -15,7 +15,7 @@ async function renderMediaInto(container, media) {
 
   const file = media.file;
 
-const url = media.url;
+  const url = media.url;
 
   if (media.type === "image") {
     container.innerHTML = `
@@ -27,27 +27,27 @@ const url = media.url;
 
         `;
   } else {
-    const blob = file.slice(0, file.size, "video/mp4");
+    const video = document.createElement("video");
 
-    const videoUrl = URL.createObjectURL(blob);
+    video.className = "viewer-video";
 
-    container.innerHTML = `
+    video.controls = true;
 
-            <video
-    class="viewer-video"
-    controls
-    playsinline
-    preload="metadata"
->
+    video.playsInline = true;
 
-                <source
-                    src="${videoUrl}"
-                    type="video/mp4"
-                >
+    video.preload = "metadata";
 
-            </video>
+    video.src = url;
 
-        `;
+    loadVideoProgress(video, media);
+
+    video.addEventListener("timeupdate", () => {
+      const key = `progress_${media.file.name}_${media.file.size}`;
+
+      localStorage.setItem(key, video.currentTime);
+    });
+
+    container.appendChild(video);
   }
 }
 
@@ -71,6 +71,46 @@ function stopAllVideos() {
 
     video.load();
   });
+}
+
+// ==========================================
+// SAVE VIDEO PROGRESS
+// ==========================================
+
+function saveVideoProgress() {
+  const video = document.querySelector("#current-slide video");
+
+  if (!video) return;
+
+  const media = mediaList[currentMediaIndex];
+
+  if (!media) return;
+
+  const key = `progress_${media.file.name}_${media.file.size}`;
+
+  localStorage.setItem(key, video.currentTime);
+}
+
+// ==========================================
+// LOAD VIDEO PROGRESS
+// ==========================================
+
+function loadVideoProgress(video, media) {
+  const key = `progress_${media.file.name}_${media.file.size}`;
+
+  const saved = localStorage.getItem(key);
+
+  if (!saved) return;
+
+  video.addEventListener(
+    "loadedmetadata",
+    () => {
+      video.currentTime = Number(saved);
+    },
+    {
+      once: true,
+    },
+  );
 }
 
 let startX = 0;
@@ -163,6 +203,8 @@ window.addEventListener("load", () => {
   const closeBtn = document.getElementById("close-viewer");
 
   closeBtn?.addEventListener("click", () => {
+    saveVideoProgress();
+
     stopAllVideos();
 
     showScreen("media-screen");
@@ -173,7 +215,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchstart", (e) => {
-
     startX = e.touches[0].clientX;
 
     currentX = startX;
@@ -188,7 +229,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchmove", (e) => {
-
     if (!isDragging) return;
 
     currentX = e.touches[0].clientX;
@@ -203,7 +243,6 @@ window.addEventListener("load", () => {
   // ==========================
 
   viewer?.addEventListener("touchend", async () => {
-
     if (!isDragging) return;
 
     isDragging = false;
@@ -215,6 +254,7 @@ window.addEventListener("load", () => {
     // NEXT
 
     if (diff < -80 && currentMediaIndex < mediaList.length - 1) {
+      saveVideoProgress();
       stopAllVideos();
 
       track.style.transform = "translate3d(-66.666%,0,0)";
@@ -234,6 +274,7 @@ window.addEventListener("load", () => {
 
     // PREVIOUS
     else if (diff > 80 && currentMediaIndex > 0) {
+      saveVideoProgress();
       stopAllVideos();
 
       track.style.transform = "translate3d(0%,0,0)";
