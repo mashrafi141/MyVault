@@ -63,6 +63,8 @@ function stopAllVideos() {
   document.querySelectorAll("video").forEach((video) => {
     video.pause();
 
+    video.muted = true;
+
     video.currentTime = 0;
 
     video.removeAttribute("src");
@@ -210,11 +212,11 @@ window.addEventListener("load", () => {
     // NEXT
 
     if (diff < -80 && currentMediaIndex < mediaList.length - 1) {
+      stopAllVideos();
+
       track.style.transform = "translate3d(-66.666%,0,0)";
 
       setTimeout(async () => {
-        stopAllVideos();
-
         track.style.transition = "none";
 
         currentMediaIndex++;
@@ -228,12 +230,12 @@ window.addEventListener("load", () => {
     }
 
     // PREVIOUS
-    else if (diff > 80 && currentMediaIndex > 0) {
+    if (diff > 80 && currentMediaIndex > 0) {
+      stopAllVideos();
+
       track.style.transform = "translate3d(0%,0,0)";
 
       setTimeout(async () => {
-        stopAllVideos();
-
         track.style.transition = "none";
 
         currentMediaIndex--;
