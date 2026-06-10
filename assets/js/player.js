@@ -78,7 +78,7 @@ function stopAllVideos() {
 // ==========================================
 
 function saveVideoProgress() {
-  const video = document.querySelector("#current-slide video");
+  const video = document.querySelector(".viewer-video");
 
   if (!video) return;
 
@@ -100,17 +100,15 @@ function loadVideoProgress(video, media) {
 
   const saved = localStorage.getItem(key);
 
+  console.log("Saved Progress:", saved);
+
   if (!saved) return;
 
-  video.addEventListener(
-    "loadedmetadata",
-    () => {
-      video.currentTime = Number(saved);
-    },
-    {
-      once: true,
-    },
-  );
+  video.addEventListener("loadedmetadata", () => {
+    console.log("Restoring:", saved);
+
+    video.currentTime = Number(saved);
+  });
 }
 
 let startX = 0;
