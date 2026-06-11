@@ -358,40 +358,116 @@ body{
    AUTO LOCK
 ========================= */
 
-.auto-lock-options{
+.auto-lock-options {
 
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 
-    gap:14px;
+    gap: 12px;
 
-    margin-bottom:20px;
+    margin: 20px 0;
 }
 
-.auto-lock-options label{
+.auto-lock-options label {
 
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
 
-    gap:12px;
+    gap: 12px;
 
-    padding:10px 0;
+    padding: 14px 16px;
 
-    font-size:15px;
+    background: rgba(255,255,255,.03);
 
-    color:#fff;
+    border: 1px solid rgba(255,255,255,.06);
 
-    cursor:pointer;
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+
+    color: #fff;
+
+    font-size: 15px;
 }
 
-.auto-lock-options input[type="radio"]{
+.auto-lock-options label:hover {
 
-    width:18px;
-    height:18px;
+    background: rgba(37,99,235,.08);
 
-    margin:0;
+    border-color: rgba(59,130,246,.35);
 
-    accent-color:#2563eb;
+    box-shadow:
+        0 0 10px rgba(59,130,246,.15);
+}
 
-    flex-shrink:0;
+.auto-lock-options input[type="radio"] {
+
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #2563eb;
+
+    flex-shrink: 0;
+}
+
+/* =========================
+   MODAL BUTTONS
+========================= */
+
+.modal-actions {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+.modal-actions button {
+
+    flex: 1;
+
+    height: 50px;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(96,165,250,.5);
+
+    background:
+        linear-gradient(
+            180deg,
+            #2563eb,
+            #1d4ed8
+        );
+
+    color: #fff;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 12px rgba(59,130,246,.35),
+        inset 0 1px 0 rgba(255,255,255,.15);
+
+    transition: .25s ease;
+}
+
+.modal-actions button:hover {
+
+    border-color:
+        rgba(147,197,253,.9);
+
+    box-shadow:
+        0 0 18px rgba(59,130,246,.55),
+        0 0 30px rgba(59,130,246,.25);
+}
+
+.modal-actions button:active {
+
+    transform: scale(.97);
 }
