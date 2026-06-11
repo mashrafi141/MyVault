@@ -41,7 +41,7 @@ function handleSettingAction(action) {
     }
 
     case "reconnect":
-      console.log("Reconnect Folder");
+      alert(".....coming soon.....");
 
       break;
 
@@ -67,27 +67,27 @@ function handleSettingAction(action) {
     }
 
     case "help":
-      console.log("Help & FAQ");
+      alert(".....coming soon.....");
 
       break;
 
     case "contact":
-      console.log("Contact Support");
+      alert(".....coming soon.....");
 
       break;
 
     case "about":
-      console.log("About MyVault");
+      alert(".....coming soon.....");
 
       break;
 
     case "privacy":
-      console.log("Privacy Policy");
+      alert(".....coming soon.....");
 
       break;
 
     case "clear-cache":
-      console.log("Clear Cache");
+      alert(".....coming soon.....");
 
       break;
 
