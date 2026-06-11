@@ -353,3 +353,35 @@ body{
 #savePinBtn{
     background:#2563eb;
 }
+
+
+/* =========================
+   AUTO LOCK
+========================= */
+
+.auto-lock-options{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    margin-bottom:18px;
+}
+
+.auto-lock-options label{
+
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    color:#fff;
+}
+
+.auto-lock-options input{
+
+    accent-color:#2563eb;
+}
