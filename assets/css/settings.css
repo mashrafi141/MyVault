@@ -1,0 +1,265 @@
+/* =========================
+   SETTINGS PAGE
+========================= */
+
+:root{
+    --bg:#0b0f14;
+    --card:#121821;
+    --card-hover:#18212c;
+
+    --border:#222b38;
+
+    --text:#ffffff;
+    --text-secondary:#94a3b8;
+
+    --accent:#3b82f6;
+
+    --danger:#ef4444;
+
+    --radius:18px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    min-height:100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.settings-header{
+    position:sticky;
+    top:0;
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    padding:18px 16px;
+
+    background:
+        rgba(11,15,20,.92);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.05);
+}
+
+.back-btn{
+    width:44px;
+    height:44px;
+
+    border:none;
+    outline:none;
+
+    border-radius:14px;
+
+    background:var(--card);
+
+    color:var(--text);
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.back-btn:active{
+    transform:scale(.95);
+}
+
+.header-content h1{
+    font-size:22px;
+    font-weight:700;
+}
+
+.header-content p{
+    margin-top:3px;
+
+    font-size:13px;
+
+    color:var(--text-secondary);
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.settings-container{
+    padding:18px 16px 40px;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.settings-section{
+    margin-bottom:28px;
+}
+
+.settings-section h2{
+    font-size:12px;
+
+    color:var(--text-secondary);
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+
+    margin-bottom:12px;
+
+    padding-left:4px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.setting-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:15px;
+
+    margin-bottom:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.setting-card:active{
+    transform:scale(.985);
+}
+
+.setting-card:hover{
+    background:var(--card-hover);
+}
+
+/* =========================
+   ICON
+========================= */
+
+.setting-icon{
+    width:48px;
+    height:48px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:14px;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+.setting-icon i{
+    font-size:18px;
+    color:#dbe4ee;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.setting-info{
+    flex:1;
+    min-width:0;
+}
+
+.setting-info h3{
+    font-size:15px;
+    font-weight:600;
+}
+
+.setting-info p{
+    margin-top:4px;
+
+    font-size:12px;
+
+    line-height:1.4;
+
+    color:var(--text-secondary);
+}
+
+/* =========================
+   ARROW
+========================= */
+
+.setting-arrow{
+    color:#64748b;
+
+    font-size:13px;
+
+    transition:.25s;
+}
+
+.setting-card:hover .setting-arrow{
+    transform:translateX(4px);
+}
+
+/* =========================
+   DANGER ZONE
+========================= */
+
+.danger-card{
+    border-color:
+        rgba(239,68,68,.20);
+}
+
+.danger-card .setting-info h3{
+    color:#ffb4b4;
+}
+
+.danger-icon{
+    background:
+        rgba(239,68,68,.12);
+}
+
+.danger-icon i{
+    color:var(--danger);
+}
+
+/* =========================
+   CARD SEPARATION
+========================= */
+
+.settings-section .setting-card:last-child{
+    margin-bottom:0;
+}
+
+/* =========================
+   BOTTOM SAFE SPACE
+========================= */
+
+.settings-section:last-child{
+    margin-bottom:70px;
+}
