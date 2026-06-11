@@ -223,6 +223,48 @@ href="../assets/css/settings.css">
 
 </main>
 
+<!-- Change PIN Modal -->
+
+<div id="changePinModal" class="modal">
+
+    <div class="modal-content">
+
+        <h3>Change PIN</h3>
+
+        <input
+            id="currentPin"
+            type="password"
+            maxlength="4"
+            placeholder="Current PIN">
+
+        <input
+            id="newPin"
+            type="password"
+            maxlength="4"
+            placeholder="New PIN">
+
+        <input
+            id="confirmNewPin"
+            type="password"
+            maxlength="4"
+            placeholder="Confirm New PIN">
+
+        <div class="modal-actions">
+
+            <button id="cancelPinBtn">
+                Cancel
+            </button>
+
+            <button id="savePinBtn">
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <script src="../assets/js/settings.js"></script>
 
 </body>
