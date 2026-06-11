@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MyVault</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet"
+href="../assets/css/settings.css">
+</head>
+<body>
+
+<header class="settings-header">
+
+    <button class="back-btn" id="backBtn">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="header-content">
+        <h1>Settings</h1>
+        <p>Manage your vault preferences</p>
+    </div>
+
+</header>
+
+<main class="settings-container">
+
+    <!-- Security -->
+
+    <section class="settings-section">
+
+        <h2>Security</h2>
+
+        <div class="setting-card" data-action="change-pin">
+            <div class="setting-icon">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Change PIN</h3>
+                <p>Update your vault PIN</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-card" data-action="auto-lock">
+            <div class="setting-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Auto Lock</h3>
+                <p>Automatically lock the vault</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Storage -->
+
+    <section class="settings-section">
+
+        <h2>Storage</h2>
+
+        <div class="setting-card" data-action="folder">
+            <div class="setting-icon">
+                <i class="fa-solid fa-folder"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Vault Folder</h3>
+                <p>Select your vault location</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-card" data-action="reconnect">
+            <div class="setting-icon">
+                <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Reconnect Folder</h3>
+                <p>Restore folder permission</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-card" data-action="storage-info">
+            <div class="setting-icon">
+                <i class="fa-solid fa-database"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Storage Information</h3>
+                <p>View vault statistics</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Support -->
+
+    <section class="settings-section">
+
+        <h2>Support</h2>
+
+        <div class="setting-card" data-action="help">
+            <div class="setting-icon">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Help & FAQ</h3>
+                <p>Common questions and guides</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-card" data-action="contact">
+            <div class="setting-icon">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Contact Support</h3>
+                <p>Report bugs or request features</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- About -->
+
+    <section class="settings-section">
+
+        <h2>About</h2>
+
+        <div class="setting-card" data-action="about">
+            <div class="setting-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>About MyVault</h3>
+                <p>Version and app information</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+        <div class="setting-card" data-action="privacy">
+            <div class="setting-icon">
+                <i class="fa-solid fa-file-shield"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Privacy Policy</h3>
+                <p>Read privacy details</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Danger -->
+
+    <section class="settings-section">
+
+        <h2>Danger Zone</h2>
+
+        <div class="setting-card danger-card"
+            data-action="clear-cache">
+
+            <div class="setting-icon danger-icon">
+                <i class="fa-solid fa-trash"></i>
+            </div>
+
+            <div class="setting-info">
+                <h3>Clear Cache</h3>
+                <p>Remove temporary cached data</p>
+            </div>
+
+            <div class="setting-arrow">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../assets/js/settings.js"></script>
+
+</body>
+</html>
