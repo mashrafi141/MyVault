@@ -354,6 +354,7 @@ body{
     background:#2563eb;
 }
 
+
 /* =========================
    AUTO LOCK
 ========================= */
@@ -415,7 +416,7 @@ body{
 }
 
 /* =========================
-   MODAL BUTTONS
+   MODAL ACTIONS
 ========================= */
 
 .modal-actions {
@@ -435,7 +436,43 @@ body{
 
     border-radius: 14px;
 
-    border: 1px solid rgba(96,165,250,.5);
+    border: none;
+
+    color: #fff;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+}
+
+/* Cancel */
+
+#cancelAutoLockBtn {
+
+    background: #374151;
+
+    border: 1px solid #4b5563;
+
+    box-shadow: none;
+}
+
+#cancelAutoLockBtn:hover {
+
+    background: #4b5563;
+
+    border-color: #6b7280;
+}
+
+#cancelAutoLockBtn:active {
+
+    transform: scale(.97);
+}
+
+/* Save */
+
+#saveAutoLockBtn {
 
     background:
         linear-gradient(
@@ -444,20 +481,14 @@ body{
             #1d4ed8
         );
 
-    color: #fff;
-
-    font-weight: 600;
-
-    cursor: pointer;
+    border: 1px solid rgba(96,165,250,.6);
 
     box-shadow:
         0 0 12px rgba(59,130,246,.35),
         inset 0 1px 0 rgba(255,255,255,.15);
-
-    transition: .25s ease;
 }
 
-.modal-actions button:hover {
+#saveAutoLockBtn:hover {
 
     border-color:
         rgba(147,197,253,.9);
@@ -467,7 +498,7 @@ body{
         0 0 30px rgba(59,130,246,.25);
 }
 
-.modal-actions button:active {
+#saveAutoLockBtn:active {
 
     transform: scale(.97);
 }
