@@ -39,18 +39,29 @@ function handleSettingAction(action) {
 
       break;
 
-    case "folder":
-      console.log("Vault Folder");
-
-      break;
-
     case "reconnect":
       console.log("Reconnect Folder");
 
       break;
 
     case "storage-info":
-      console.log("Storage Information");
+      const folders =
+        document.getElementById("folder-count")?.textContent || "0";
+
+      const photos = document.getElementById("photo-count")?.textContent || "0";
+
+      const videos = document.getElementById("video-count")?.textContent || "0";
+
+      document.getElementById("infoFolders").textContent = folders;
+
+      document.getElementById("infoPhotos").textContent = photos;
+
+      document.getElementById("infoVideos").textContent = videos;
+
+      document.getElementById("infoTotal").textContent =
+        Number(photos) + Number(videos);
+
+      document.getElementById("storageInfoModal").classList.add("show");
 
       break;
 
@@ -189,5 +200,13 @@ if (saveAutoLockBtn) {
     alert("Auto Lock updated");
 
     document.getElementById("autoLockModal").classList.remove("show");
+  });
+}
+
+const closeStorageInfo = document.getElementById("closeStorageInfo");
+
+if (closeStorageInfo) {
+  closeStorageInfo.addEventListener("click", () => {
+    document.getElementById("storageInfoModal").classList.remove("show");
   });
 }
