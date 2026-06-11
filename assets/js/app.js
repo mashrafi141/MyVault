@@ -45,49 +45,19 @@ window.addEventListener("load", async () => {
 });
 
 
-// ==========================================
-// SETTINGS
-// ==========================================
+const settingsBtn =
+document.getElementById("settings-btn");
 
-window.addEventListener(
-    "load",
-    ()=>{
+if(settingsBtn){
 
-        const settingsBtn =
-        document.getElementById(
-            "settings-btn"
-        );
+    settingsBtn.addEventListener("click",()=>{
 
-        const backSettings =
-        document.getElementById(
-            "back-settings"
-        );
+        window.location.href =
+        "settings.html";
 
-        settingsBtn?.addEventListener(
-            "click",
-            ()=>{
+    });
 
-                showScreen(
-                    "settings-screen"
-                );
-
-            }
-        );
-
-        backSettings?.addEventListener(
-            "click",
-            ()=>{
-
-                showScreen(
-                    "dashboard-screen"
-                );
-
-            }
-        );
-
-    }
-);
-
+}
 
 // ==========================================
 // SERVICE WORKER
