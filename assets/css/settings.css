@@ -354,7 +354,6 @@ body{
     background:#2563eb;
 }
 
-
 /* =========================
    AUTO LOCK
 ========================= */
@@ -364,9 +363,9 @@ body{
     display:flex;
     flex-direction:column;
 
-    gap:12px;
+    gap:14px;
 
-    margin-bottom:18px;
+    margin-bottom:20px;
 }
 
 .auto-lock-options label{
@@ -374,14 +373,25 @@ body{
     display:flex;
     align-items:center;
 
-    gap:10px;
+    gap:12px;
 
-    cursor:pointer;
+    padding:10px 0;
+
+    font-size:15px;
 
     color:#fff;
+
+    cursor:pointer;
 }
 
-.auto-lock-options input{
+.auto-lock-options input[type="radio"]{
+
+    width:18px;
+    height:18px;
+
+    margin:0;
 
     accent-color:#2563eb;
+
+    flex-shrink:0;
 }
