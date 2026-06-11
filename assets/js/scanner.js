@@ -279,6 +279,12 @@ function updateDashboardStats(folders) {
     totalVideos += folder.videos;
   });
 
+  localStorage.setItem("vault_folder_count", folders.length);
+
+  localStorage.setItem("vault_photo_count", totalPhotos);
+
+  localStorage.setItem("vault_video_count", totalVideos);
+
   if (folderCount) {
     folderCount.textContent = folders.length;
   }
@@ -347,6 +353,10 @@ async function updateVaultInfo() {
   if (folderName) {
     folderName.textContent = vaultFolderHandle.name;
   }
+
+  localStorage.setItem("vault_name", vaultFolderHandle.name);
+
+  localStorage.setItem("vault_size", formatSize(totalSize));
 
   if (folderInfo) {
     folderInfo.textContent = `${folderCount} folders • ${formatSize(totalSize)}`;
