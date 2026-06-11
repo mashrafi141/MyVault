@@ -2,356 +2,356 @@
    SETTINGS PAGE
 ========================= */
 
-:root{
-    --bg:#0b0f14;
-    --card:#121821;
-    --card-hover:#18212c;
+:root {
+    --bg: #0b0f14;
+    --card: #121821;
+    --card-hover: #18212c;
 
-    --border:#222b38;
+    --border: #222b38;
 
-    --text:#ffffff;
-    --text-secondary:#94a3b8;
+    --text: #ffffff;
+    --text-secondary: #94a3b8;
 
-    --accent:#3b82f6;
+    --accent: #3b82f6;
 
-    --danger:#ef4444;
+    --danger: #ef4444;
 
-    --radius:18px;
+    --radius: 18px;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-    background:var(--bg);
-    color:var(--text);
+body {
+    background: var(--bg);
+    color: var(--text);
 
     font-family:
         Inter,
         system-ui,
         sans-serif;
 
-    min-height:100vh;
+    min-height: 100vh;
 }
 
 /* =========================
    HEADER
 ========================= */
 
-.settings-header{
-    position:sticky;
-    top:0;
-    z-index:100;
+.settings-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
-    display:flex;
-    align-items:center;
-    gap:14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
 
-    padding:18px 16px;
+    padding: 18px 16px;
 
     background:
-        rgba(11,15,20,.92);
+        rgba(11, 15, 20, .92);
 
-    backdrop-filter:blur(18px);
+    backdrop-filter: blur(18px);
 
     border-bottom:
-        1px solid rgba(255,255,255,.05);
+        1px solid rgba(255, 255, 255, .05);
 }
 
-.back-btn{
-    width:44px;
-    height:44px;
+.back-btn {
+    width: 44px;
+    height: 44px;
 
-    border:none;
-    outline:none;
+    border: none;
+    outline: none;
 
-    border-radius:14px;
+    border-radius: 14px;
 
-    background:var(--card);
+    background: var(--card);
 
-    color:var(--text);
+    color: var(--text);
 
-    font-size:15px;
+    font-size: 15px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    transition:.2s;
+    transition: .2s;
 }
 
-.back-btn:active{
-    transform:scale(.95);
+.back-btn:active {
+    transform: scale(.95);
 }
 
-.header-content h1{
-    font-size:22px;
-    font-weight:700;
+.header-content h1 {
+    font-size: 22px;
+    font-weight: 700;
 }
 
-.header-content p{
-    margin-top:3px;
+.header-content p {
+    margin-top: 3px;
 
-    font-size:13px;
+    font-size: 13px;
 
-    color:var(--text-secondary);
+    color: var(--text-secondary);
 }
 
 /* =========================
    CONTAINER
 ========================= */
 
-.settings-container{
-    padding:18px 16px 40px;
+.settings-container {
+    padding: 18px 16px 40px;
 }
 
 /* =========================
    SECTION
 ========================= */
 
-.settings-section{
-    margin-bottom:28px;
+.settings-section {
+    margin-bottom: 28px;
 }
 
-.settings-section h2{
-    font-size:12px;
+.settings-section h2 {
+    font-size: 12px;
 
-    color:var(--text-secondary);
+    color: var(--text-secondary);
 
-    text-transform:uppercase;
+    text-transform: uppercase;
 
-    letter-spacing:1.2px;
+    letter-spacing: 1.2px;
 
-    margin-bottom:12px;
+    margin-bottom: 12px;
 
-    padding-left:4px;
+    padding-left: 4px;
 }
 
 /* =========================
    CARD
 ========================= */
 
-.setting-card{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.setting-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 
-    background:var(--card);
+    background: var(--card);
 
-    border:1px solid var(--border);
+    border: 1px solid var(--border);
 
-    border-radius:18px;
+    border-radius: 18px;
 
-    padding:15px;
+    padding: 15px;
 
-    margin-bottom:10px;
+    margin-bottom: 10px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    transition:.25s;
+    transition: .25s;
 }
 
-.setting-card:active{
-    transform:scale(.985);
+.setting-card:active {
+    transform: scale(.985);
 }
 
-.setting-card:hover{
-    background:var(--card-hover);
+.setting-card:hover {
+    background: var(--card-hover);
 }
 
 /* =========================
    ICON
 ========================= */
 
-.setting-icon{
-    width:48px;
-    height:48px;
+.setting-icon {
+    width: 48px;
+    height: 48px;
 
-    flex-shrink:0;
+    flex-shrink: 0;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius:14px;
+    border-radius: 14px;
 
     background:
-        rgba(255,255,255,.05);
+        rgba(255, 255, 255, .05);
 }
 
-.setting-icon i{
-    font-size:18px;
-    color:#dbe4ee;
+.setting-icon i {
+    font-size: 18px;
+    color: #dbe4ee;
 }
 
 /* =========================
    CONTENT
 ========================= */
 
-.setting-info{
-    flex:1;
-    min-width:0;
+.setting-info {
+    flex: 1;
+    min-width: 0;
 }
 
-.setting-info h3{
-    font-size:15px;
-    font-weight:600;
+.setting-info h3 {
+    font-size: 15px;
+    font-weight: 600;
 }
 
-.setting-info p{
-    margin-top:4px;
+.setting-info p {
+    margin-top: 4px;
 
-    font-size:12px;
+    font-size: 12px;
 
-    line-height:1.4;
+    line-height: 1.4;
 
-    color:var(--text-secondary);
+    color: var(--text-secondary);
 }
 
 /* =========================
    ARROW
 ========================= */
 
-.setting-arrow{
-    color:#64748b;
+.setting-arrow {
+    color: #64748b;
 
-    font-size:13px;
+    font-size: 13px;
 
-    transition:.25s;
+    transition: .25s;
 }
 
-.setting-card:hover .setting-arrow{
-    transform:translateX(4px);
+.setting-card:hover .setting-arrow {
+    transform: translateX(4px);
 }
 
 /* =========================
    DANGER ZONE
 ========================= */
 
-.danger-card{
+.danger-card {
     border-color:
-        rgba(239,68,68,.20);
+        rgba(239, 68, 68, .20);
 }
 
-.danger-card .setting-info h3{
-    color:#ffb4b4;
+.danger-card .setting-info h3 {
+    color: #ffb4b4;
 }
 
-.danger-icon{
+.danger-icon {
     background:
-        rgba(239,68,68,.12);
+        rgba(239, 68, 68, .12);
 }
 
-.danger-icon i{
-    color:var(--danger);
+.danger-icon i {
+    color: var(--danger);
 }
 
 /* =========================
    CARD SEPARATION
 ========================= */
 
-.settings-section .setting-card:last-child{
-    margin-bottom:0;
+.settings-section .setting-card:last-child {
+    margin-bottom: 0;
 }
 
 /* =========================
    BOTTOM SAFE SPACE
 ========================= */
 
-.settings-section:last-child{
-    margin-bottom:70px;
+.settings-section:last-child {
+    margin-bottom: 70px;
 }
 
 /* =========================
    CHANGE PIN MODAL
 ========================= */
 
-.modal{
+.modal {
 
-    position:fixed;
-    inset:0;
+    position: fixed;
+    inset: 0;
 
-    display:none;
+    display: none;
 
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
 
-    background:rgba(0,0,0,.75);
+    background: rgba(0, 0, 0, .75);
 
-    z-index:9999;
+    z-index: 9999;
 }
 
-.modal.show{
-    display:flex;
+.modal.show {
+    display: flex;
 }
 
-.modal-content{
+.modal-content {
 
-    width:90%;
-    max-width:350px;
+    width: 90%;
+    max-width: 350px;
 
-    background:#121821;
+    background: #121821;
 
-    border:1px solid #222b38;
+    border: 1px solid #222b38;
 
-    border-radius:18px;
+    border-radius: 18px;
 
-    padding:20px;
+    padding: 20px;
 }
 
-.modal-content h3{
+.modal-content h3 {
 
-    margin-bottom:16px;
+    margin-bottom: 16px;
 }
 
-.modal-content input{
+.modal-content input {
 
-    width:100%;
-    height:50px;
+    width: 100%;
+    height: 50px;
 
-    margin-bottom:12px;
+    margin-bottom: 12px;
 
-    border:none;
-    outline:none;
+    border: none;
+    outline: none;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    padding:0 14px;
+    padding: 0 14px;
 
-    background:#1b2432;
+    background: #1b2432;
 
-    color:#fff;
+    color: #fff;
 }
 
-.modal-actions{
+.modal-actions {
 
-    display:flex;
-    gap:10px;
+    display: flex;
+    gap: 10px;
 }
 
-.modal-actions button{
+.modal-actions button {
 
-    flex:1;
+    flex: 1;
 
-    height:48px;
+    height: 48px;
 
-    border:none;
+    border: none;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    color:white;
+    color: white;
 
-    cursor:pointer;
+    cursor: pointer;
 }
 
-#cancelPinBtn{
-    background:#374151;
+#cancelPinBtn {
+    background: #374151;
 }
 
-#savePinBtn{
-    background:#2563eb;
+#savePinBtn {
+    background: #2563eb;
 }
 
 
@@ -378,9 +378,9 @@ body{
 
     padding: 14px 16px;
 
-    background: rgba(255,255,255,.03);
+    background: rgba(255, 255, 255, .03);
 
-    border: 1px solid rgba(255,255,255,.06);
+    border: 1px solid rgba(255, 255, 255, .06);
 
     border-radius: 14px;
 
@@ -395,12 +395,12 @@ body{
 
 .auto-lock-options label:hover {
 
-    background: rgba(37,99,235,.08);
+    background: rgba(37, 99, 235, .08);
 
-    border-color: rgba(59,130,246,.35);
+    border-color: rgba(59, 130, 246, .35);
 
     box-shadow:
-        0 0 10px rgba(59,130,246,.15);
+        0 0 10px rgba(59, 130, 246, .15);
 }
 
 .auto-lock-options input[type="radio"] {
@@ -475,30 +475,51 @@ body{
 #saveAutoLockBtn {
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #2563eb,
-            #1d4ed8
-        );
+            #1d4ed8);
 
-    border: 1px solid rgba(96,165,250,.6);
+    border: 1px solid rgba(96, 165, 250, .6);
 
     box-shadow:
-        0 0 12px rgba(59,130,246,.35),
-        inset 0 1px 0 rgba(255,255,255,.15);
+        0 0 12px rgba(59, 130, 246, .35),
+        inset 0 1px 0 rgba(255, 255, 255, .15);
 }
 
 #saveAutoLockBtn:hover {
 
     border-color:
-        rgba(147,197,253,.9);
+        rgba(147, 197, 253, .9);
 
     box-shadow:
-        0 0 18px rgba(59,130,246,.55),
-        0 0 30px rgba(59,130,246,.25);
+        0 0 18px rgba(59, 130, 246, .55),
+        0 0 30px rgba(59, 130, 246, .25);
 }
 
 #saveAutoLockBtn:active {
 
     transform: scale(.97);
+}
+
+.storage-info {
+
+    margin: 20px 0;
+}
+
+.storage-info p {
+
+    display: flex;
+    justify-content: space-between;
+
+    padding: 12px 0;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, .06);
+}
+
+.storage-info span {
+
+    font-weight: 600;
+
+    color: #60a5fa;
 }
