@@ -24,7 +24,7 @@ function handleSettingAction(action) {
 
       break;
 
-    case "auto-lock":
+    case "auto-lock": {
       const current = localStorage.getItem(AUTO_LOCK_KEY) || "off";
 
       const radio = document.querySelector(
@@ -38,32 +38,33 @@ function handleSettingAction(action) {
       document.getElementById("autoLockModal").classList.add("show");
 
       break;
+    }
 
     case "reconnect":
       console.log("Reconnect Folder");
 
       break;
 
-    case "storage-info":
-      const folders =
-        document.getElementById("folder-count")?.textContent || "0";
+    case "storage-info": {
+      document.getElementById("infoVaultName").textContent =
+        localStorage.getItem("vault_name") || "Unknown";
 
-      const photos = document.getElementById("photo-count")?.textContent || "0";
+      document.getElementById("infoFolders").textContent =
+        localStorage.getItem("vault_folder_count") || "0";
 
-      const videos = document.getElementById("video-count")?.textContent || "0";
+      document.getElementById("infoPhotos").textContent =
+        localStorage.getItem("vault_photo_count") || "0";
 
-      document.getElementById("infoFolders").textContent = folders;
+      document.getElementById("infoVideos").textContent =
+        localStorage.getItem("vault_video_count") || "0";
 
-      document.getElementById("infoPhotos").textContent = photos;
-
-      document.getElementById("infoVideos").textContent = videos;
-
-      document.getElementById("infoTotal").textContent =
-        Number(photos) + Number(videos);
+      document.getElementById("infoSize").textContent =
+        localStorage.getItem("vault_size") || "0 MB";
 
       document.getElementById("storageInfoModal").classList.add("show");
 
       break;
+    }
 
     case "help":
       console.log("Help & FAQ");
