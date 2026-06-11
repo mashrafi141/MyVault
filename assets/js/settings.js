@@ -1,4 +1,5 @@
 const PIN_KEY = "vault_pin";
+const AUTO_LOCK_KEY = "vault_auto_lock";
 
 // ==========================================
 // BACK BUTTON
@@ -24,7 +25,17 @@ function handleSettingAction(action) {
       break;
 
     case "auto-lock":
-      console.log("Auto Lock");
+      const current = localStorage.getItem(AUTO_LOCK_KEY) || "off";
+
+      const radio = document.querySelector(
+        `input[name="autoLock"][value="${current}"]`,
+      );
+
+      if (radio) {
+        radio.checked = true;
+      }
+
+      document.getElementById("autoLockModal").classList.add("show");
 
       break;
 
@@ -146,5 +157,37 @@ if (savePinBtn) {
     alert("PIN changed successfully");
 
     document.getElementById("changePinModal").classList.remove("show");
+  });
+}
+
+// ==========================================
+// AUTO LOCK MODAL
+// ==========================================
+
+const cancelAutoLockBtn = document.getElementById("cancelAutoLockBtn");
+
+if (cancelAutoLockBtn) {
+  cancelAutoLockBtn.addEventListener("click", () => {
+    document.getElementById("autoLockModal").classList.remove("show");
+  });
+}
+
+const saveAutoLockBtn = document.getElementById("saveAutoLockBtn");
+
+if (saveAutoLockBtn) {
+  saveAutoLockBtn.addEventListener("click", () => {
+    const selected = document.querySelector('input[name="autoLock"]:checked');
+
+    if (!selected) {
+      alert("Select a value");
+
+      return;
+    }
+
+    localStorage.setItem(AUTO_LOCK_KEY, selected.value);
+
+    alert("Auto Lock updated");
+
+    document.getElementById("autoLockModal").classList.remove("show");
   });
 }
